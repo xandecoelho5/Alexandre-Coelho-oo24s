@@ -1,9 +1,13 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
+import br.edu.utfpr.alexandre.coelho.oo24s.dao.EnderecoDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
+import br.edu.utfpr.alexandre.coelho.oo24s.model.Endereco;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -29,19 +33,20 @@ public class FXMLClienteCadastroController implements Initializable {
     @FXML
     private TextField textEmail;
     @FXML
-    private ChoiceBox cbCidade;
-    @FXML 
-    private ChoiceBox cbEstado;
+    private ChoiceBox cbEndereco;
 
     private ClienteDAO clienteDAO;
     private Stage stage;
     private Cliente cliente;
-    
+    private EnderecoDAO enderecoDAO;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.cliente = new Cliente();
         this.clienteDAO = new ClienteDAO();
+        this.enderecoDAO = new EnderecoDAO();
+        ObservableList<Endereco> enderecos = FXCollections.observableArrayList(this.enderecoDAO.getAll());
+        this.cbEndereco.setItems(enderecos);         
     }    
     
     public void setDialogStage(Stage stage) {
@@ -62,7 +67,7 @@ public class FXMLClienteCadastroController implements Initializable {
         cliente.setTelefoneComercial(textTelComercial.getText());
         cliente.setTelefoneResidencial(textTelResidencial.getText());
         cliente.setEmail(textEmail.getText()); 
-        cliente.setEndereco(cbCidade.getValue().toString() + " - " + cbEstado.getValue().toString());
+        cliente.setEndereco(cbEndereco.getValue().toString());
                 
         this.clienteDAO.save(cliente);
         
@@ -80,7 +85,7 @@ public class FXMLClienteCadastroController implements Initializable {
             this.textTelComercial.setText(cliente.getTelefoneComercial());
             this.textTelResidencial.setText(cliente.getTelefoneResidencial());
             this.textEmail.setText(cliente.getEmail());
-            //fazer alterações pro choicebox       
+            this.cbEndereco.setValue(enderecoDAO.getByNome(cliente.getEndereco()).get(0));     
         }
     }
 }

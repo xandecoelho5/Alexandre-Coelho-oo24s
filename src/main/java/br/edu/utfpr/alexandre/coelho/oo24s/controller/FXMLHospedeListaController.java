@@ -60,7 +60,13 @@ public class FXMLHospedeListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    private void openForm(Hospede hospede, ActionEvent event) {
+    public FXMLHospedeListaController() {
+        this.hospedeDAO = new HospedeDAO();
+        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        setColumnProperties();
+    }
+
+    public void openForm(Hospede hospede, ActionEvent event) {
         try {
             // Carregar o arquivo fxml e cria um
             //novo stage para a janela Modal

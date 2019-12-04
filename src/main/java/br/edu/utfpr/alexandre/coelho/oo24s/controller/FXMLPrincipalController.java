@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -17,7 +18,20 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     private VBox boxPrincipal;
-
+    @FXML
+    private Button buttonCliente;
+    @FXML
+    private Button buttonHospede;
+    @FXML
+    private Button buttonQuarto;
+    @FXML
+    private Button buttonProdutos;
+    @FXML
+    private Button buttonReserva;
+    @FXML
+    private Button buttonUsuario;
+    
+    
     private Usuario usuarioAutenticado;
 
     public void setUsuarioAutenticado(Usuario usuario) {

@@ -1,9 +1,13 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
+import br.edu.utfpr.alexandre.coelho.oo24s.dao.EnderecoDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.HospedeDAO;
+import br.edu.utfpr.alexandre.coelho.oo24s.model.Endereco;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -29,19 +33,21 @@ public class FXMLHospedeCadastroController implements Initializable {
     @FXML
     private TextField textEmail;
     @FXML
-    private ChoiceBox cbCidade;
-    @FXML 
-    private ChoiceBox cbEstado;
+    private ChoiceBox cbEndereco;
 
     private HospedeDAO hospedeDAO;
     private Stage stage;
     private Hospede hospede;
+    private EnderecoDAO enderecoDAO;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.hospede = new Hospede();
         this.hospedeDAO = new HospedeDAO();
+        this.enderecoDAO = new EnderecoDAO();
+        ObservableList<Endereco> enderecos = FXCollections.observableArrayList(this.enderecoDAO.getAll());
+        this.cbEndereco.setItems(enderecos); 
     }    
     
     public void setDialogStage(Stage stage) {
@@ -62,7 +68,7 @@ public class FXMLHospedeCadastroController implements Initializable {
         hospede.setTelefoneComercial(textTelComercial.getText());
         hospede.setTelefoneResidencial(textTelResidencial.getText());
         hospede.setEmail(textEmail.getText()); 
-        hospede.setEndereco(cbCidade.getValue().toString() + " - " + cbEstado.getValue().toString());
+        hospede.setEndereco(cbEndereco.getValue().toString());
                 
         this.hospedeDAO.save(hospede);
         
@@ -80,6 +86,7 @@ public class FXMLHospedeCadastroController implements Initializable {
             this.textTelComercial.setText(hospede.getTelefoneComercial());
             this.textTelResidencial.setText(hospede.getTelefoneResidencial());
             this.textEmail.setText(hospede.getEmail());
+            this.cbEndereco.setValue(enderecoDAO.getByNome(hospede.getEndereco()).get(0));  
             //fazer alterações pro choicebox       
         }
     }   

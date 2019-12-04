@@ -64,7 +64,13 @@ public class FXMLClienteListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    private void openForm(Cliente cliente, ActionEvent event) {
+    public FXMLClienteListaController() {
+        this.clienteDao = new ClienteDAO();
+        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);             
+        setColumnProperties();  
+    }
+    
+    public void openForm(Cliente cliente, ActionEvent event) {
         try {
             // Carregar o arquivo fxml e cria um
             //novo stage para a janela Modal

@@ -1,13 +1,17 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Quarto implements AbstractModel{
@@ -29,6 +33,9 @@ public class Quarto implements AbstractModel{
     
     @Column(nullable = false)
     private Double valorDiaria;
+    
+    @OneToMany(mappedBy = "quarto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 1 reserva para varios hospedes 
+    private List<Reserva> reservas;
 
     public Quarto() {
     }
@@ -79,6 +86,14 @@ public class Quarto implements AbstractModel{
 
     public void setValorDiaria(Double valorDiaria) {
         this.valorDiaria = valorDiaria;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     @Override

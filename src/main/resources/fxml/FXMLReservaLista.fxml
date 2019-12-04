@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLReservaListaController">
-    <stylesheets>
-        <URL value="@/styles/style.css"/>
-    </stylesheets>
-</AnchorPane>
+<VBox alignment="CENTER" prefHeight="413.0" prefWidth="744.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLReservaListaController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="370.0" VBox.vgrow="NEVER">
+         <children>
+            <Button mnemonicParsing="false" onAction="newRecord" text="Novo">
+               <HBox.margin>
+                  <Insets left="20.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="edit" text="Editar">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="delete" text="Remover" />
+         </children>
+      </HBox>
+      <TableView fx:id="tableData" prefHeight="345.0" prefWidth="599.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="columnId" maxWidth="150.0" minWidth="67.0" prefWidth="67.0" text="Código" />
+          <TableColumn fx:id="columnCliente" maxWidth="368.0" minWidth="72.0" prefWidth="214.0" text="Cliente" />
+            <TableColumn fx:id="columnQuarto" prefWidth="140.0" text="Quarto" />
+            <TableColumn fx:id="columnValorDiaria" prefWidth="75.0" text="Valor Diária" />
+            <TableColumn fx:id="columnDataReserva" text="Data Reserva" />
+            <TableColumn fx:id="columnDataEntrada" prefWidth="84.0" text="Data Entrada" />
+            <TableColumn fx:id="columnDataSaida" prefWidth="72.0" text="Data Saída" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>

@@ -11,8 +11,7 @@ public class UsuarioDAO extends GenericDao<Usuario, Long> {
 
     public Usuario findByEmailAndSenhaNamedQuery(String email,
             String senha) {
-        Query query = em.createNamedQuery(
-                Usuario.FIND_BY_EMAIL_AND_SENHA);
+        Query query = em.createNamedQuery(Usuario.FIND_BY_EMAIL_AND_SENHA);        
         query.setParameter("email", email);
         query.setParameter("senha", senha);
 

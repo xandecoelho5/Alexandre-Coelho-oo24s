@@ -13,7 +13,7 @@
         <URL value="@/styles/style.css" />
     </stylesheets>
    <children>
-      <Button fx:id="buttonEntrar" layoutX="137.0" layoutY="234.0" mnemonicParsing="false" onAction="login" prefHeight="46.0" prefWidth="151.0" text="Entrar" />
+      <Button fx:id="buttonEntrar" layoutX="137.0" layoutY="234.0" mnemonicParsing="false" onAction="#login" prefHeight="46.0" prefWidth="151.0" text="Entrar" />
       <Label layoutX="26.0" layoutY="96.0" text="Usuário" />
       <Label layoutX="26.0" layoutY="158.0" text="Senha" />
       <Label layoutX="86.0" layoutY="34.0" text="Autenticacão do Sistema">

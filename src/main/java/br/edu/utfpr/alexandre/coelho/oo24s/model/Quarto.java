@@ -35,7 +35,7 @@ public class Quarto implements AbstractModel{
     private Double valorDiaria;
     
     @OneToMany(mappedBy = "quarto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 1 reserva para varios hospedes 
-    private List<Reserva> reservas;
+    private List<Reserva> reservas;//1 quarto pode ter varias reservas
 
     public Quarto() {
     }
@@ -123,6 +123,6 @@ public class Quarto implements AbstractModel{
     
     @Override
     public String toString() {
-        return "Quarto{" + "id=" + id + ", numero=" + numero + ", tipo=" + tipo + ", qtdeCamas=" + qtdeCamas + ", qtdePessoas=" + qtdePessoas + ", valorDiaria=" + valorDiaria + '}';
+        return "Quarto: " + numero + ", tipo: " + tipo + ", camas: " + qtdeCamas + ", pessoas: " + qtdePessoas + ", valor Diaria: R$" + valorDiaria;
     }
 }

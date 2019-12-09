@@ -1,42 +1,67 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Hospede implements AbstractModel{
-    
+public class Hospede implements AbstractModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 50, nullable = false)
     private String nome;
-    
+
     @Column(length = 80, nullable = false)
     private String endereco;
 
-    @Column(length = 14, nullable = false)
+    @Column(length = 20, nullable = false)
     private String telefoneComercial;
-    
-    @Column(length = 14)
+
+    @Column(length = 20)
     private String telefoneResidencial;
-    
+
     @Column(length = 50)
     private String email;
-    
-    @Column(length = 11, nullable = false)
+
+    @Column(length = 20, nullable = false)
     private String cpf;
-    
-    @Column(length = 11, nullable = false)
+
+    @Column(length = 20, nullable = false)
     private String rg;
-    
+
     @Column(length = 20, nullable = false)
     private String numeroPassaporte;
+
+//    @ManyToOne
+//    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
+//    private Reserva reserva;;
+//    @OneToMany(mappedBy = "hospede", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes 
+//    private List<Reserva> reservas;
+    @ManyToMany(mappedBy="hospedes")
+    private List<Reserva> reservas;
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+    
+    
 
     public Hospede() {
     }
@@ -137,6 +162,10 @@ public class Hospede implements AbstractModel{
         }
         return true;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
 }

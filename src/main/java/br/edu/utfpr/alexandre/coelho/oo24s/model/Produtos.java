@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Produtos implements AbstractModel<Serializable> {
@@ -26,6 +28,10 @@ public class Produtos implements AbstractModel<Serializable> {
 
     @Column(length = 10, nullable = false)
     private String categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
+    private Reserva reserva;
 
     public Produtos() {
     }
@@ -68,6 +74,14 @@ public class Produtos implements AbstractModel<Serializable> {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
     }
 
     @Override

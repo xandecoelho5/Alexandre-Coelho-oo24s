@@ -19,19 +19,19 @@ public class Cliente implements AbstractModel{
     @Column(length = 80, nullable = false)
     private String endereco;
 
-    @Column(length = 14, nullable = false)
+    @Column(length = 20, nullable = false)
     private String telefoneComercial;
     
-    @Column(length = 14)
+    @Column(length = 20)
     private String telefoneResidencial;
     
     @Column(length = 50)
     private String email;
     
-    @Column(length = 11, nullable = false)
+    @Column(length = 20, nullable = false)
     private String cpf;
     
-    @Column(length = 11, nullable = false)
+    @Column(length = 20, nullable = false)
     private String rg;
     
     @Column(length = 20, nullable = false)
@@ -139,7 +139,7 @@ public class Cliente implements AbstractModel{
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", telefoneComercial=" + telefoneComercial + ", telefoneResidencial=" + telefoneResidencial + ", email=" + email + ", cpf=" + cpf + ", rg=" + rg + ", numeroPassaporte=" + numeroPassaporte + '}';
+        return nome;
     }
     
 }

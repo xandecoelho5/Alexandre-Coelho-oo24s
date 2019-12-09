@@ -16,8 +16,8 @@
         <URL value="@/styles/style.css" />
     </stylesheets>
    <children>
-      <Button layoutX="287.0" layoutY="367.0" mnemonicParsing="false" onAction="save" prefHeight="25.0" prefWidth="62.0" text="Salvar" />
-      <Button layoutX="219.0" layoutY="367.0" mnemonicParsing="false" onAction="cancel" text="Cancelar" />
+      <Button layoutX="287.0" layoutY="367.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="62.0" text="Salvar" />
+      <Button layoutX="219.0" layoutY="367.0" mnemonicParsing="false" onAction="#cancel" text="Cancelar" />
       <Label layoutX="24.0" layoutY="29.0" text="Código" />
       <Label layoutX="24.0" layoutY="80.0" text="Nome" />
       <Label layoutX="24.0" layoutY="131.0" text="CPF" />

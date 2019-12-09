@@ -1,5 +1,6 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
+import br.edu.utfpr.alexandre.coelho.oo24s.util.BooleanConverter;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -12,7 +13,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import com.sun.javafx.css.converters.BooleanConverter;
 import java.time.LocalDate;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
@@ -29,31 +29,30 @@ import javax.validation.constraints.NotNull;
 public class Usuario implements AbstractModel, Serializable{
     private static final long serialVersionUID = 1L;
     public static final String FIND_ALL = "Usuario.findAll";
-    public static final String FIND_BY_EMAIL_AND_SENHA=
-            "Usuario.findByEmailAndSenha";
+    public static final String FIND_BY_EMAIL_AND_SENHA = "Usuario.findByEmailAndSenha";
+            
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "O campo 'nome' é "
-            + "obrigatório!")
+    @NotEmpty(message = "O campo 'nome' é obrigatório!")       
     @Column(length = 100, nullable = false)
     private String nome;
-    @NotEmpty(message = "O campo 'cpf' é "
-            + "obrigatório!")
-    @Column(length = 11, nullable = false)
+    @NotEmpty(message = "O campo 'cpf' é obrigatório!")      
+    @Column(length = 20, nullable = false)
     private String cpf;
     @Column(length = 100, nullable = false)
     private String email;
     @Column(length = 512, nullable = false)
     private String senha;
+    
     @Convert(converter = BooleanConverter.class)
     @Column(columnDefinition = "char(1) default 'T'")
     private Boolean ativo;
-    @NotNull(message = "O campo "
-            + "'Data de Nascimento' é "
-            + "obrigatório!")
+    
+    @NotNull(message = "O campo 'Data de Nascimento' é obrigatório!")   
     @Column(nullable = false)
     private LocalDate dataNascimento;
+    
     @Lob
     @Column()
     private byte[] foto;

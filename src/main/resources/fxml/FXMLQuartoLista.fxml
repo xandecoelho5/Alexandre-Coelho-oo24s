@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="413.0" prefWidth="565.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLQuartoListaController">
+<VBox alignment="CENTER" prefHeight="413.0" prefWidth="565.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLQuartoListaController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="370.0" VBox.vgrow="NEVER">
          <children>
-            <Button mnemonicParsing="false" onAction="newRecord" text="Novo">
+            <Button mnemonicParsing="false" onAction="#newRecord" text="Novo">
                <HBox.margin>
                   <Insets left="20.0" right="10.0" />
                </HBox.margin>

@@ -53,7 +53,7 @@ public class FXMLClienteListaController implements Initializable {
     private void setColumnProperties() {
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));  
+        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefoneComercial"));  
         this.columnEmail.setCellValueFactory(new PropertyValueFactory<>("email")); 
         this.columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf")); 
     }
@@ -64,11 +64,11 @@ public class FXMLClienteListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    public FXMLClienteListaController() {
-        this.clienteDao = new ClienteDAO();
+  /*  public FXMLClienteListaController() {
+         this.clienteDao = new ClienteDAO();
         this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);             
         setColumnProperties();  
-    }
+    }*/
     
     public void openForm(Cliente cliente, ActionEvent event) {
         try {

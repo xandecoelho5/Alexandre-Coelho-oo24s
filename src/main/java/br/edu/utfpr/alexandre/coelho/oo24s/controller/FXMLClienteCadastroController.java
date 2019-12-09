@@ -46,7 +46,7 @@ public class FXMLClienteCadastroController implements Initializable {
         this.clienteDAO = new ClienteDAO();
         this.enderecoDAO = new EnderecoDAO();
         ObservableList<Endereco> enderecos = FXCollections.observableArrayList(this.enderecoDAO.getAll());
-        this.cbEndereco.setItems(enderecos);         
+        this.cbEndereco.setItems(enderecos); 
     }    
     
     public void setDialogStage(Stage stage) {

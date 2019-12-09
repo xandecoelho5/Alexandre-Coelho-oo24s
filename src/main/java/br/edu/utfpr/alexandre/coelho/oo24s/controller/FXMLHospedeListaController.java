@@ -51,7 +51,7 @@ public class FXMLHospedeListaController implements Initializable {
     private void setColumnProperties() {
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefoneComercial"));
     }
 
     private void loadData() {
@@ -60,11 +60,11 @@ public class FXMLHospedeListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    public FXMLHospedeListaController() {
+    /*public FXMLHospedeListaController() {
         this.hospedeDAO = new HospedeDAO();
         this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setColumnProperties();
-    }
+    }*/
 
     public void openForm(Hospede hospede, ActionEvent event) {
         try {

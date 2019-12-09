@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -64,8 +65,17 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     @FXML
-    public void loadCliente(ActionEvent event) throws IOException {       
-        setDataPane(openVBox("/fxml/FXMLClienteLista.fxml"));
+    public void loadCliente(ActionEvent event) throws IOException { 
+        try{
+            setDataPane(openVBox("/fxml/FXMLClienteLista.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(" .: Aula 4 - JavaFX :. ");
+            alert.setHeaderText("Atenção, ocorreu um erro!");
+            alert.setContentText("Falha ao abrir a tela de categorias.");
+            alert.showAndWait();
+        } 
     }
 
     @FXML

@@ -11,7 +11,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <children>
-            <Button mnemonicParsing="false" onAction="newRecord" prefHeight="30.0" prefWidth="70.0" text="Novo">
+            <Button mnemonicParsing="false" onAction="#newRecord" prefHeight="30.0" prefWidth="70.0" text="Novo">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -19,12 +19,12 @@
                   <Insets left="20.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="edit" prefHeight="30.0" prefWidth="70.0" text="Editar">
+            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="70.0" text="Editar">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="delete" prefHeight="30.0" prefWidth="70.0" text="Remover" />
+            <Button mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="70.0" text="Remover" />
          </children>
          <opaqueInsets>
             <Insets />

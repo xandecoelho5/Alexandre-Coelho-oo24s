@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Reserva implements AbstractModel{
+public class Reserva implements AbstractModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +28,9 @@ public class Reserva implements AbstractModel{
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "quarto_id", referencedColumnName = "id")
     private Quarto quarto;
-
-    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 1 reserva para varios hospedes 
-    private List<Hospede> hospedes;
 
     @Column(nullable = false)
     private LocalDate dataReserva;
@@ -48,7 +47,14 @@ public class Reserva implements AbstractModel{
     @Column(nullable = false)
     private Double valorDiaria;
 
-    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(name = "RESERVA_HOSPEDES")
+    private List<Hospede> hospedes;
+    
+//    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes ;
+//    private List<Hospede> hospedes;
+
+    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Produtos> produtos;
 
     public Reserva() {

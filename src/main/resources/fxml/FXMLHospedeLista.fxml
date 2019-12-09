@@ -11,12 +11,12 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="370.0" VBox.vgrow="NEVER">
          <children>
-            <Button mnemonicParsing="false" onAction="newRecord" text="Novo">
+            <Button mnemonicParsing="false" onAction="#newRecord" text="Novo">
                <HBox.margin>
                   <Insets left="20.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="edit" text="Editar">
+            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="#edit" text="Editar">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>

@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 public class MainApp extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.out.println("java.version: " + System.getProperty("java.version"));
+        System.out.println("javafx.runtime.version: " + System.getProperty("javafx.runtime.version"));
+        
         VBox root = (VBox) FXMLLoader.load(
          this.getClass()
           .getResource("/fxml/FXMLPrincipal.fxml")

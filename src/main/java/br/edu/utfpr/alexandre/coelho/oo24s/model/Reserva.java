@@ -54,9 +54,13 @@ public class Reserva implements AbstractModel {
 //    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes ;
 //    private List<Hospede> hospedes;
 
-    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY);
+//    private List<Produtos> produtos;
+    
+    @ManyToMany
+    @JoinTable(name = "RESERVA_PRODUTOS")
     private List<Produtos> produtos;
-
+    
     public Reserva() {
     }
 

@@ -86,8 +86,8 @@ public class FXMLHospedeCadastroController implements Initializable {
             this.textTelComercial.setText(hospede.getTelefoneComercial());
             this.textTelResidencial.setText(hospede.getTelefoneResidencial());
             this.textEmail.setText(hospede.getEmail());
-            this.cbEndereco.setValue(enderecoDAO.getByNome(hospede.getEndereco()).get(0));  
-            //fazer alterações pro choicebox       
+            String[] texts = hospede.getEndereco().split("-");
+            this.cbEndereco.setValue(enderecoDAO.getOne(enderecoDAO.getByNome(texts[0].substring(0, texts[0].length()-1))));      
         }
     }   
 }

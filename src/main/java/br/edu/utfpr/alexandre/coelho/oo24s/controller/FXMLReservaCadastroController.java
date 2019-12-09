@@ -175,7 +175,7 @@ public class FXMLReservaCadastroController implements Initializable {
         this.textValorDiaria.setText(quarto.getValorDiaria().toString());
     }
 
-     @FXML
+    @FXML
     private void newClienteRecord(ActionEvent event) {
         //FXMLClienteListaController clienteLista = new FXMLClienteListaController();
         //clienteLista.openForm(new Cliente(), event);

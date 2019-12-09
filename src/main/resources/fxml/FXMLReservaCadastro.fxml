@@ -37,7 +37,7 @@
                   <DatePicker fx:id="dateReserva" layoutX="13.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
                   <DatePicker fx:id="dateEntrada" layoutX="140.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
                   <DatePicker fx:id="dateSaida" layoutX="267.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
-                  <Button fx:id="buttonNovoCliente" layoutX="180.0" layoutY="36.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="195.0" text="Novo Cliente" />
+                  <Button fx:id="buttonNovoCliente" layoutX="180.0" layoutY="36.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="195.0" text="Novo Cliente" onAction="#newClienteRecord" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="321.0" prefWidth="322.0">

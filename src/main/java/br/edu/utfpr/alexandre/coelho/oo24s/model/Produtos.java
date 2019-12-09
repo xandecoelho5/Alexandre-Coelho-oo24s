@@ -1,6 +1,7 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -29,9 +31,11 @@ public class Produtos implements AbstractModel<Serializable> {
     @Column(length = 10, nullable = false)
     private String categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
-    private Reserva reserva;
+//    @ManyToOne
+//    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
+//    private Reserva reserva;
+    @ManyToMany(mappedBy = "produtos")
+    private List<Reserva> reservas;
 
     public Produtos() {
     }
@@ -76,12 +80,12 @@ public class Produtos implements AbstractModel<Serializable> {
         this.descricao = descricao;
     }
 
-    public Reserva getReserva() {
-        return reserva;
+    public List<Reserva> getReservas() {
+        return reservas;
     }
 
-    public void setReserva(Reserva reserva) {
-        this.reserva = reserva;
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     @Override

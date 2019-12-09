@@ -1,14 +1,11 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
-import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.QuartoDAO;
-import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.ETipoQuarto;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Quarto;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +33,6 @@ public class FXMLQuartoCadastroController implements Initializable {
     private QuartoDAO quartoDAO;
     private Stage stage;
     private Quarto quarto;
-   // private final ETipoQuarto[] tipoQuarto = ETipoQuarto.values(); cbJob.setModel(new DefaultComboBoxModel(job)); 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,7 +71,7 @@ public class FXMLQuartoCadastroController implements Initializable {
             this.textQtdeCamas.setText(String.valueOf(quarto.getQtdeCamas()));
             this.textQtdeAcomoda.setText(quarto.getQtdePessoas().toString());
             this.textValorDiaria.setText(String.valueOf(quarto.getValorDiaria()));
-            //fazer alterações pro choicebox       
+            this.cbTipo.setValue(quarto.getTipo());     
         }
     }    
 }

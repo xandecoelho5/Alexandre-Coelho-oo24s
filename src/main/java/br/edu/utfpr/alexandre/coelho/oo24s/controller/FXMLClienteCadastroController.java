@@ -85,7 +85,8 @@ public class FXMLClienteCadastroController implements Initializable {
             this.textTelComercial.setText(cliente.getTelefoneComercial());
             this.textTelResidencial.setText(cliente.getTelefoneResidencial());
             this.textEmail.setText(cliente.getEmail());
-            this.cbEndereco.setValue(enderecoDAO.getByNome(cliente.getEndereco()).get(0));     
+            String[] texts = cliente.getEndereco().split("-");
+            this.cbEndereco.setValue(enderecoDAO.getOne(enderecoDAO.getByNome(texts[0].substring(0, texts[0].length()-1))));     
         }
     }
 }

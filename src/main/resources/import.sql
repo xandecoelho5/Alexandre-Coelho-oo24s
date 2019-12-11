@@ -82,3 +82,4 @@ insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonec
 insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonecomercial, telefoneresidencial) values ('186.273.863-58', 'cbuckleyi@ihg.com', 'São Paulo - SP', 'Catrina Buckley', 'BR141317', '40.665.303-7', '(91) 94540-7224', '(52) 95495-3247');
 insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonecomercial, telefoneresidencial) values ('637.153.121-16', 'emendenhallj@tinyurl.com', 'Belo Horizonte - MG', 'Ernesta Mendenhall', 'BR988915', '17.742.959-2', '(02) 95752-7932', '(07) 92642-0735');
 
+insert into usuario (ativo, cpf, datanascimento, email, nome, senha) values ('T', '201.283.965-28', '2002-12-03', 'nn@a.com', 'Xandim', '1234');

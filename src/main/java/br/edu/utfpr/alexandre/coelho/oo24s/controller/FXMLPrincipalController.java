@@ -1,5 +1,6 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
+import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
 import java.io.IOException;
 import java.net.URL;
@@ -10,9 +11,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class FXMLPrincipalController implements Initializable {
@@ -32,11 +39,14 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     private Button buttonUsuario;
     
-    
-    private Usuario usuarioAutenticado;
+    private static Usuario usuarioAutenticado;
 
     public void setUsuarioAutenticado(Usuario usuario) {
-        this.usuarioAutenticado = usuario;
+        usuarioAutenticado = usuario;
+    }
+    
+    public static Usuario getUsuarioAutenticado() {
+        return usuarioAutenticado;
     }
 
     @Override
@@ -63,6 +73,32 @@ public class FXMLPrincipalController implements Initializable {
         ft.play();
         return v;
     }
+    
+    @FXML
+    private void openReservas(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLReservaManut.fxml"));                 
+            BorderPane pane = (BorderPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Controle de Reservas");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) buttonCliente).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+            
+            FXMLReservaManutController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");       
+            alert.setContentText("Por favor, tente realizar a operação novamente!");      
+            alert.showAndWait();
+        }
+    }
 
     @FXML
     public void loadCliente(ActionEvent event) throws IOException { 
@@ -73,7 +109,7 @@ public class FXMLPrincipalController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(" .: Aula 4 - JavaFX :. ");
             alert.setHeaderText("Atenção, ocorreu um erro!");
-            alert.setContentText("Falha ao abrir a tela de categorias.");
+            alert.setContentText("Falha ao abrir a tela de clientes.");
             alert.showAndWait();
         } 
     }

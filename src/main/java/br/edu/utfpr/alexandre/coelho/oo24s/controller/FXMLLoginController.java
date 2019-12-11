@@ -50,10 +50,10 @@ public class FXMLLoginController implements Initializable {
              
                 VBox root = (VBox) loader.load();
                 Scene scene = new Scene(root);
-                scene.getStylesheets().add("/styles/temaDark.css");
+                //scene.getStylesheets().add("/styles/temaDark.css");
                 
                 Stage stage = new Stage();
-                stage.setTitle("Aula Java FX - 0024S");
+                stage.setTitle("Hotelaria Joestar");
                 stage.setScene(scene);
                 stage.setMaximized(true);
                 stage.setResizable(true);

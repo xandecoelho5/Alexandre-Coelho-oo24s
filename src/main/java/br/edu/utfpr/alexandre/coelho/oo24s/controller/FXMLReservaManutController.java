@@ -8,6 +8,7 @@ import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Quarto;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
+import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -61,7 +63,7 @@ public class FXMLReservaManutController implements Initializable {
     
     private ReservaDAO reservaDAO;
     private Stage stage;
-    private Reserva reserva;
+    private static Reserva reserva;
     private ClienteDAO clienteDAO;
     private HospedeDAO hospedeDAO;
     private QuartoDAO quartoDAO;
@@ -69,25 +71,38 @@ public class FXMLReservaManutController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.reserva = new Reserva();
+        reserva = new Reserva();
         this.reservaDAO = new ReservaDAO();
         this.clienteDAO = new ClienteDAO();
         this.hospedeDAO = new HospedeDAO();
         this.quartoDAO = new QuartoDAO();
         
-        //SET TEXTFIELD VALUES
+        //ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getAll());
+        List<Cliente> listaClientes = new ArrayList<>();
+        listaClientes.addAll(clienteDAO.getClientesComReserva());
+        System.out.println(listaClientes);
+        ObservableList<Cliente> clientes = FXCollections.observableArrayList(listaClientes);
         
-        ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getAll());
-        ObservableList<Hospede> hospedes = FXCollections.observableArrayList(hospedeDAO.getAll());
-
-        this.cbCliente.setItems(clientes);
-        this.listHospedes.setItems(hospedes); //GET ALL WITH WHERE RESERVA_ID = RESERVA_ID;
+        this.cbCliente.setItems(clientes); //only clientes that have reservas;
     }  
+    
+    public void setDialogStage(Stage stage) {
+        this.stage = stage;
+    }
+    
+    @FXML
+    private void cancel() {
+        this.stage.close();
+    }
     
     public void setDataPane(Node node) {
         boxProdutos.getChildren().setAll(node);
     }
 
+    public static Reserva getReserva() {
+        return reserva;
+    }
+    
     public VBox openVBox(String url) throws IOException {
         VBox v = (VBox) FXMLLoader.load(this.getClass().getResource(url));            
         FadeTransition ft = new FadeTransition(Duration.millis(1000));                
@@ -100,8 +115,28 @@ public class FXMLReservaManutController implements Initializable {
         return v;
     }
     
-    private void confirmCliente() {
-        //SETPANE(boxProdutos);
-        //change all the fuckin things
+    private void refreshData(){
+        textCliente.setText(reserva.getCliente().getNome());
+        textQuarto.setText(reserva.getQuarto().getNumero());
+        textValorDiaria.setText(String.valueOf(reserva.getQuarto().getValorDiaria()));
+        dateReserva.setText(reserva.getDataReserva().toString());
+        dateStart.setText(reserva.getDataEntrada().toString());
+        dateEnd.setText(reserva.getDataSaida().toString());
+        ObservableList<Hospede> hospedes = FXCollections.observableArrayList(reserva.getHospedes());
+        this.listHospedes.setItems(hospedes);
+        Usuario usuario = FXMLPrincipalController.getUsuarioAutenticado();  
+        textActualUser.setText(usuario.getNome());
+        textUserRegistered.setText(usuario.getNome());
+        //textUserRegistered.setText(reserva.getUsuario().getNome());
+    }
+    
+    @FXML
+    public void confirmCliente(ActionEvent event) throws IOException {    
+        if(!(cbCliente.getValue() == null)){
+            Cliente c = (Cliente) cbCliente.getValue();
+            reserva = reservaDAO.getOne(reservaDAO.getByNome(c.getNome()));
+            refreshData();
+            setDataPane(openVBox("/fxml/FXMLProdutosListaReserva.fxml")); 
+        }   
     }
 }

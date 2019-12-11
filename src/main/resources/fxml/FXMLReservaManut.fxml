@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLReservaManutController">
     <right>
         
     </right>
@@ -23,10 +24,11 @@
             <Pane prefHeight="60.0" prefWidth="1099.0">
                <children>
                   <ProgressBar fx:id="progressReserva" layoutX="11.0" layoutY="37.0" prefHeight="18.0" prefWidth="666.0" progress="0.0" />
-                  <Label layoutX="14.0" layoutY="14.0" text="Usuário atual:" />
-                  <TextField fx:id="textActualUser" layoutX="93.0" layoutY="10.0" prefHeight="25.0" prefWidth="150.0" />
-                  <Label layoutX="256.0" layoutY="14.0" text="Usuário responsável pelo cadastro desta reserva:" />
-                  <TextField fx:id="textUserRegistered" layoutX="522.0" layoutY="10.0" prefHeight="25.0" prefWidth="157.0" />
+                  <Label layoutX="14.0" layoutY="11.0" text="Usuário atual:" />
+                  <TextField fx:id="textActualUser" layoutX="93.0" layoutY="7.0" prefHeight="25.0" prefWidth="150.0" />
+                  <Label layoutX="256.0" layoutY="11.0" text="Usuário responsável pelo cadastro desta reserva:" />
+                  <TextField fx:id="textUserRegistered" layoutX="522.0" layoutY="7.0" prefHeight="25.0" prefWidth="157.0" />
+                  <Separator layoutX="8.0" layoutY="-1.0" prefHeight="3.0" prefWidth="671.0" />
                </children>
             </Pane>
          </children>
@@ -47,10 +49,10 @@
                   </Label>
                   <ChoiceBox fx:id="cbCliente" layoutX="175.0" layoutY="55.0" prefHeight="25.0" prefWidth="238.0" />
                   <Label layoutX="14.0" layoutY="59.0" text="Selecionar Cliente da Reserva: " />
-                  <Button fx:id="buttonConfirm" layoutX="421.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Confirmar" />
+                  <Button fx:id="buttonConfirm" layoutX="421.0" layoutY="55.0" mnemonicParsing="false" onAction="#confirmCliente" prefHeight="25.0" prefWidth="98.0" text="Confirmar" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="159.0" prefWidth="1081.0">
+            <AnchorPane prefHeight="163.0" prefWidth="686.0">
                <children>
                   <Label layoutX="14.0" layoutY="18.0" text="Cliente" />
                   <TextField fx:id="textCliente" layoutX="66.0" layoutY="14.0" prefHeight="25.0" prefWidth="292.0" />
@@ -66,6 +68,8 @@
                   <Label layoutX="368.0" layoutY="10.0" text="Hóspedes" />
                   <Label layoutX="181.0" layoutY="90.0" text="Valor Diária" />
                   <TextField fx:id="textValorDiaria" layoutX="260.0" layoutY="86.0" prefHeight="25.0" prefWidth="97.0" />
+                  <Separator layoutX="8.0" layoutY="152.0" prefHeight="4.0" prefWidth="662.0" />
+                  <Separator layoutX="12.0" layoutY="2.0" prefHeight="3.0" prefWidth="663.0" />
                </children>
             </AnchorPane>
          </children>

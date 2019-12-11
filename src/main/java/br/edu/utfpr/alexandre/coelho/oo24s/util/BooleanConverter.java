@@ -9,7 +9,6 @@ public class BooleanConverter
 
     @Override
     public String convertToDatabaseColumn(Boolean value) {
-
         if (Boolean.TRUE.equals(value)) {
             return "T";
         } else {
@@ -19,7 +18,6 @@ public class BooleanConverter
 
     @Override
     public Boolean convertToEntityAttribute(String value) {
-
         return "T".equals(value);
     }
 

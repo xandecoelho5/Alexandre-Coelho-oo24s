@@ -33,18 +33,18 @@
                   <Label layoutX="14.0" layoutY="223.0" text="Motivo" />
                   <TextField fx:id="textMotivo" layoutX="65.0" layoutY="219.0" prefHeight="25.0" prefWidth="306.0" />
                   <ChoiceBox fx:id="cbCliente" layoutX="15.0" layoutY="36.0" prefHeight="25.0" prefWidth="149.0" />
-                  <ChoiceBox fx:id="cbQuarto" layoutX="13.0" layoutY="93.0" prefHeight="25.0" prefWidth="149.0" onAction="#changeValue"/>
+                  <ChoiceBox fx:id="cbQuarto" layoutX="13.0" layoutY="93.0" onAction="#changeValue" prefHeight="25.0" prefWidth="149.0" />
                   <DatePicker fx:id="dateReserva" layoutX="13.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
                   <DatePicker fx:id="dateEntrada" layoutX="140.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
                   <DatePicker fx:id="dateSaida" layoutX="267.0" layoutY="164.0" prefHeight="25.0" prefWidth="104.0" />
-                  <Button fx:id="buttonNovoCliente" layoutX="180.0" layoutY="36.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="195.0" text="Novo Cliente" onAction="#newClienteRecord" />
+                  <Button fx:id="buttonNovoCliente" layoutX="180.0" layoutY="36.0" mnemonicParsing="false" onAction="#newClienteRecord" prefHeight="25.0" prefWidth="195.0" text="Novo Cliente" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="321.0" prefWidth="322.0">
                <children>
                   <ListView fx:id="listHospedes" layoutX="14.0" layoutY="31.0" prefHeight="90.0" prefWidth="289.0" />
                   <Label layoutX="16.0" layoutY="14.0" text="Hóspedes" />
-                  <Button fx:id="buttonNovoHospede" layoutX="158.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Novo Hóspede" />
+                  <Button fx:id="buttonNovoHospede" layoutX="158.0" layoutY="130.0" mnemonicParsing="false" onAction="#newHospedeRecord" prefHeight="25.0" prefWidth="104.0" text="Novo Hóspede" />
                   <ListView fx:id="listSelHospedes" layoutX="14.0" layoutY="184.0" prefHeight="90.0" prefWidth="289.0" />
                   <Label layoutX="16.0" layoutY="167.0" text="Hóspedes Selecionados" />
                   <Button fx:id="buttonAddToList" layoutX="35.0" layoutY="130.0" mnemonicParsing="false" onAction="#addToList" prefHeight="25.0" prefWidth="116.0" text="Adicionar na lista" />

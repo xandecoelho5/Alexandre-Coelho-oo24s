@@ -11,7 +11,10 @@ import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -126,8 +129,8 @@ public class FXMLReservaManutController implements Initializable {
         this.listHospedes.setItems(hospedes);
         Usuario usuario = FXMLPrincipalController.getUsuarioAutenticado();  
         textActualUser.setText(usuario.getNome());
-        textUserRegistered.setText(usuario.getNome());
-        //textUserRegistered.setText(reserva.getUsuario().getNome());
+        textUserRegistered.setText(reserva.getUsuario().getNome());
+        setProgress();
     }
     
     @FXML
@@ -138,5 +141,25 @@ public class FXMLReservaManutController implements Initializable {
             refreshData();
             setDataPane(openVBox("/fxml/FXMLProdutosListaReserva.fxml")); 
         }   
+    }
+    
+    @FXML
+    public void checkoutReserva(ActionEvent event) {
+        reserva.setAberta(Boolean.FALSE);
+        reservaDAO.update(reserva);
+        System.out.println("Reserva Finalizada!");
+        this.stage.close();
+        //if day > dataReservaFinal
+        //gera relatorios;
+    }
+    
+    private void setProgress() {
+        LocalDate dataFinal = LocalDate.parse(dateEnd.getText());
+        LocalDate dataInicial = LocalDate.parse(dateStart.getText());
+        Period pDatas = Period.between(dataInicial, dataFinal);
+        Period pGeral = Period.between(LocalDate.now(), dataFinal);   
+        
+        Double percent = Double.valueOf(pGeral.getDays()) / pDatas.getDays();
+        progressReserva.progressProperty().set(percent);
     }
 }

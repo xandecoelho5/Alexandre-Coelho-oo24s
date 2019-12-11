@@ -1,10 +1,12 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
+import br.edu.utfpr.alexandre.coelho.oo24s.util.BooleanConverter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -50,17 +52,39 @@ public class Reserva implements AbstractModel {
     @ManyToMany
     @JoinTable(name = "RESERVA_HOSPEDES")
     private List<Hospede> hospedes;
-    
+
 //    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes ;
 //    private List<Hospede> hospedes;
-
 //    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY);
 //    private List<Produtos> produtos;
-    
     @ManyToMany
     @JoinTable(name = "RESERVA_PRODUTOS")
     private List<Produtos> produtos;
-    
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", unique = true, nullable = false, updatable = false)
+    private Usuario usuario;
+
+    @Convert(converter = BooleanConverter.class)
+    @Column(columnDefinition = "char(1) default 'T'")
+    private Boolean aberta;
+
+    public Boolean getAberta() {
+        return aberta;
+    }
+
+    public void setAberta(Boolean aberta) {
+        this.aberta = aberta;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public Reserva() {
     }
 

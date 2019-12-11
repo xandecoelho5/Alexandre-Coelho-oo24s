@@ -1,13 +1,10 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
-import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
-import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

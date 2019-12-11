@@ -1,8 +1,6 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
-import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.HospedeDAO;
-import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -60,12 +58,6 @@ public class FXMLHospedeListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    /*public FXMLHospedeListaController() {
-        this.hospedeDAO = new HospedeDAO();
-        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        setColumnProperties();
-    }*/
-
     public void openForm(Hospede hospede, ActionEvent event) {
         try {
             // Carregar o arquivo fxml e cria um
@@ -84,7 +76,7 @@ public class FXMLHospedeListaController implements Initializable {
 
             FXMLHospedeCadastroController controller = loader.getController();
 
-            controller.setCliente(hospede);
+            controller.setHospede(hospede);
             controller.setDialogStage(dialogStage);
             // Exibe a janela Modal e espera até o usuário
             //fechar

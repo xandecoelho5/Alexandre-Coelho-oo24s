@@ -11,7 +11,7 @@ public class ClienteDAO extends GenericDao<Cliente, Long>{
     }
     
     public List<Cliente> getClientesComReserva(){
-        Query query = em.createNativeQuery("select * from cliente where id in (select cliente_id from reserva)", Cliente.class);
+        Query query = em.createNativeQuery("select * from cliente where id in (select cliente_id from reserva where aberta = 'T')", Cliente.class);
         return query.getResultList();
     }
 }

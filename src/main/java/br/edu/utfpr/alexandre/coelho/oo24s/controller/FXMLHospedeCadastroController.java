@@ -75,7 +75,7 @@ public class FXMLHospedeCadastroController implements Initializable {
         this.stage.close();
     }
 
-    public void setCliente(Hospede hospede) {
+    public void setHospede(Hospede hospede) {
         this.hospede = hospede;
         if (hospede.getId() != null) {
             this.textId.setText(hospede.getId().toString());

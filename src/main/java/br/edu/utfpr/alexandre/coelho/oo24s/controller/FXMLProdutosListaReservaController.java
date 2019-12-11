@@ -57,9 +57,7 @@ public class FXMLProdutosListaReservaController implements Initializable {
         
         prodSelecionados.addAll(produtoDao.getByReservaId(FXMLReservaManutController.getReserva().getId()));
         
-        ObservableList<Produtos> produtos = FXCollections.observableArrayList(produtoDao.getAll());
-        cbProdutos.setItems(produtos);
-        
+        atualizaProdutos(); 
         setColumnProperties();
         loadData();
     }
@@ -92,6 +90,11 @@ public class FXMLProdutosListaReservaController implements Initializable {
         reserva.setProdutos(prodSelecionados);
         reservaDAO.update(reserva);
         calcularTotal();
+    }
+    
+    private void atualizaProdutos() {
+        ObservableList<Produtos> produtos = FXCollections.observableArrayList(produtoDao.getAll());
+        cbProdutos.setItems(produtos);
     }
     
     private void calcularTotal() {
@@ -131,8 +134,7 @@ public class FXMLProdutosListaReservaController implements Initializable {
     @FXML
     private void newProduct(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLProdutosCadastro.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLProdutosCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -148,6 +150,7 @@ public class FXMLProdutosListaReservaController implements Initializable {
             controller.setProduto(new Produtos());
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
+            atualizaProdutos();
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);

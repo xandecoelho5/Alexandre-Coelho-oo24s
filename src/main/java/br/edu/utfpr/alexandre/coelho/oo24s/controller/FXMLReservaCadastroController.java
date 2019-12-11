@@ -123,6 +123,7 @@ public class FXMLReservaCadastroController implements Initializable {
 
     @FXML
     private void save() {
+        reserva.setAberta(Boolean.TRUE);
         reserva.setCliente((Cliente) cbCliente.getValue());
         reserva.setQuarto((Quarto) cbQuarto.getValue());
         reserva.setValorDiaria(reserva.getQuarto().getValorDiaria());
@@ -131,6 +132,7 @@ public class FXMLReservaCadastroController implements Initializable {
         reserva.setDataReserva(dateReserva.getValue());
         reserva.setDataSaida(dateSaida.getValue());
         reserva.setMotivo(textMotivo.getText());
+        reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
 
         this.reservaDAO.save(reserva);
 
@@ -177,16 +179,10 @@ public class FXMLReservaCadastroController implements Initializable {
 
     @FXML
     private void newClienteRecord(ActionEvent event) {
-        //FXMLClienteListaController clienteLista = new FXMLClienteListaController();
-        //clienteLista.openForm(new Cliente(), event);
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));                
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));              
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Cliente");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -198,23 +194,42 @@ public class FXMLReservaCadastroController implements Initializable {
 
             controller.setCliente(new Cliente());
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");       
-            alert.setContentText("Por favor, tente realizar a operação novamente!");      
-            alert.showAndWait();
+            exibeAlerta();
         }
     }
     
     @FXML
-    private void newHospedeRecord (ActionEvent event) {
-        FXMLHospedeListaController hospedeLista = new FXMLHospedeListaController();
-        hospedeLista.openForm(new Hospede(), event);
+    private void newHospedeRecord(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLHospedeCadastro.fxml"));              
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Hóspede");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) buttonAddToList).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            FXMLHospedeCadastroController controller = loader.getController();
+
+            controller.setHospede(new Hospede());
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            exibeAlerta();
+        }
+    }
+    
+    private void exibeAlerta(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");       
+        alert.setContentText("Por favor, tente realizar a operação novamente!");      
+        alert.showAndWait();
     }
 }

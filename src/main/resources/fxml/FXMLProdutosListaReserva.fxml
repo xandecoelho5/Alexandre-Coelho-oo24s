@@ -30,6 +30,7 @@
             <columns>
                 <TableColumn fx:id="columnId" maxWidth="150.0" minWidth="61.0" prefWidth="61.0" text="Código" />
                 <TableColumn fx:id="columnNome" maxWidth="368.0" minWidth="72.0" prefWidth="208.0" text="Nome" />
+                <TableColumn fx:id="columnQuantidade" prefWidth="93.0" text="Quantidade" />
                 <TableColumn fx:id="columnValor" prefWidth="93.0" text="Valor" />
                 <TableColumn fx:id="columnCategoria" prefWidth="138.0" text="Categoria" />
             </columns>

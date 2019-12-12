@@ -32,9 +32,18 @@ public class Produtos implements AbstractModel<Serializable> {
 //    @ManyToOne
 //    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
 //    private Reserva reserva;
-    @ManyToMany(mappedBy = "produtos")
-    private List<Reserva> reservas;
+    //@ManyToMany(mappedBy = "produtos")
+    //private List<Reserva> reservas;
 
+    
+    /*public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }*/
+    
     public Produtos() {
     }
 
@@ -76,14 +85,6 @@ public class Produtos implements AbstractModel<Serializable> {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public List<Reserva> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(List<Reserva> reservas) {
-        this.reservas = reservas;
     }
 
     @Override

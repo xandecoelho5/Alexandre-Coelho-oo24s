@@ -2,13 +2,16 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
+import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Produtos;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
+import br.edu.utfpr.alexandre.coelho.oo24s.model.ReservaProdutos;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,15 +33,17 @@ import javafx.stage.Stage;
 public class FXMLProdutosListaReservaController implements Initializable {
 
     @FXML
-    private TableView<Produtos> tableData;
+    private TableView<ReservaProdutos> tableData;
     @FXML
-    private TableColumn<Produtos, Long> columnId;
+    private TableColumn<ReservaProdutos, Long> columnId;
     @FXML
-    private TableColumn<Produtos, String> columnNome;
+    private TableColumn<ReservaProdutos, String> columnNome;
     @FXML
-    private TableColumn<Produtos, Double> columnValor;
+    private TableColumn<ReservaProdutos, Double> columnValor;
     @FXML
-    private TableColumn<Produtos, String> columnCategoria;
+    private TableColumn<ReservaProdutos, Integer> columnQuantidade;
+    @FXML
+    private TableColumn<ReservaProdutos, String> columnCategoria;
     @FXML
     private ChoiceBox cbProdutos;
     @FXML
@@ -46,18 +51,20 @@ public class FXMLProdutosListaReservaController implements Initializable {
 
     private ProdutosDAO produtoDao;
     private ReservaDAO reservaDAO;
-    private ObservableList<Produtos> list = FXCollections.observableArrayList();
+    private ReservaProdutosDAO reservaProdutosDAO;
+    private ObservableList<ReservaProdutos> list = FXCollections.observableArrayList();
     private List<Produtos> prodSelecionados;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.produtoDao = new ProdutosDAO();
         this.reservaDAO = new ReservaDAO();
+        this.reservaProdutosDAO = new ReservaProdutosDAO();
         this.prodSelecionados = new ArrayList<>();
-        
-        prodSelecionados.addAll(produtoDao.getByReservaId(FXMLReservaManutController.getReserva().getId()));
-        
-        atualizaProdutos(); 
+
+        //prodSelecionados.addAll(produtoDao.getByReservaId(FXMLReservaManutController.getReserva().getId()));
+
+        atualizaProdutos();
         setColumnProperties();
         loadData();
     }
@@ -65,69 +72,55 @@ public class FXMLProdutosListaReservaController implements Initializable {
     private void setColumnProperties() {
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        columnNome.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdutos().getNome()));
         columnValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        columnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        columnQuantidade.setCellFactory(new PropertyValueFactory<>("quantidade"));
+        columnCategoria.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdutos().getCategoria()));
     }
 
     private void loadData() {
         list.clear();
-        list.addAll(prodSelecionados);
+        list.addAll(reservaProdutosDAO.getAll());
         tableData.setItems(list);
     }
 
     @FXML
     private void addToList(ActionEvent event) {
         Produtos produto = (Produtos) this.cbProdutos.getValue();
-        if (!prodSelecionados.contains(produto)) {
-            prodSelecionados.add(produto);
-            atualizaReserva();
-        }
+        ReservaProdutos reservaProduto = new ReservaProdutos();
+        reservaProduto.setProdutos(produto);
+        reservaProduto.setQuantidade(10);
+        reservaProduto.setReserva(FXMLReservaManutController.getReserva());
+        reservaProduto.setValor(produto.getValor());
+        reservaProdutosDAO.insert(reservaProduto);
         loadData();
-    }
-    
-    private void atualizaReserva(){
-        Reserva reserva = reservaDAO.getOne(FXMLReservaManutController.getReserva().getId());
-        reserva.setProdutos(prodSelecionados);
-        reservaDAO.update(reserva);
         calcularTotal();
     }
-    
+
     private void atualizaProdutos() {
         ObservableList<Produtos> produtos = FXCollections.observableArrayList(produtoDao.getAll());
         cbProdutos.setItems(produtos);
     }
-    
+
     private void calcularTotal() {
         DecimalFormat df = new DecimalFormat("R$0.00");
-        Double total = 0.0;
-        for (Produtos produto : prodSelecionados) {
-            total += produto.getValor();
-        }
+        Double total = list.stream().mapToDouble(v -> v.getValor() * v.getQuantidade()).sum();
         textTotal.setText(df.format(total));
     }
-    
+
     @FXML
     private void removeFromList(ActionEvent event) {
         if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
-                Produtos produto = tableData.getSelectionModel().getSelectedItem();
-                prodSelecionados.remove(produto);              
-                tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
-                atualizaReserva();              
+                ReservaProdutos reservaProd = tableData.getSelectionModel().getSelectedItem();
+                reservaProdutosDAO.delete(reservaProd.getId());
+                calcularTotal();
             } catch (Exception e) {
                 e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");
-                alert.setContentText("Por favor, tente realizar a operação novamente!");
-                alert.showAndWait();
+                showAlert("Ocorreu um erro ao remover o registro!", "Por favor, tente realizar a operação novamente!");
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");
-            alert.setContentText("Por favor, selecione um registro na tabela!");
-            alert.showAndWait();
+            showAlert("Nenhum registro selecionado", "Por favor, selecione um registro na tabela!");
         }
     }
 
@@ -153,11 +146,15 @@ public class FXMLProdutosListaReservaController implements Initializable {
             atualizaProdutos();
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");
-            alert.setContentText("Por favor, tente realizar a operação novamente!");
-            alert.showAndWait();
+            showAlert("Ocorreu um erro ao abrir a janela de cadastro!", "Por favor, tente realizar a operação novamente!");
         }
+    }
+
+    private void showAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

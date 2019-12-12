@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Reserva implements AbstractModel {
@@ -57,10 +58,10 @@ public class Reserva implements AbstractModel {
 //    private List<Hospede> hospedes;
 //    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY);
 //    private List<Produtos> produtos;
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(name = "RESERVA_PRODUTOS")
-    private List<Produtos> produtos;
-
+    private List<Produtos> produtos;*/
+    
     @OneToOne
     @JoinColumn(name = "usuario_id", unique = true, nullable = false, updatable = false)
     private Usuario usuario;
@@ -68,6 +69,24 @@ public class Reserva implements AbstractModel {
     @Convert(converter = BooleanConverter.class)
     @Column(columnDefinition = "char(1) default 'T'")
     private Boolean aberta;
+
+    @OneToMany(mappedBy = "reserva", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)   
+    private List<ReservaProdutos> reservaProdutos;
+
+    @Transient
+    private Double valorTotal;
+
+    public List<ReservaProdutos> getReservaProdutos() {
+        return reservaProdutos;
+    }
+
+    public void setReservaProdutos(List<ReservaProdutos> reservaProdutos) {
+        this.reservaProdutos = reservaProdutos;
+    }
+
+    public Double getValorTotal() {
+        return reservaProdutos.stream().mapToDouble(vp -> vp.getValor() * vp.getQuantidade()).sum();              
+    }
 
     public Boolean getAberta() {
         return aberta;
@@ -160,13 +179,13 @@ public class Reserva implements AbstractModel {
         this.valorDiaria = valorDiaria;
     }
 
-    public List<Produtos> getProdutos() {
+    /*public List<Produtos> getProdutos() {
         return produtos;
     }
 
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
-    }
+    }*/
 
     @Override
     public int hashCode() {

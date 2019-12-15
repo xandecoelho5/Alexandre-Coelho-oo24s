@@ -37,8 +37,8 @@
                                     <Button fx:id="buttonCliente" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadCliente" text="Cliente" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     <Button fx:id="buttonHospede" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#loadHospede" prefHeight="25.0" prefWidth="144.0" text="Hospede" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" />
                                     <Button fx:id="buttonProdutos" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" onAction="#loadProdutos" text="Produtos/Serviços" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
-                                    <Button fx:id="buttonQuarto" layoutX="10.0" layoutY="113.0" mnemonicParsing="false" onAction="#loadQuarto" prefHeight="25.0" prefWidth="153.0" text="Quarto" />
-                                    <Button fx:id="buttonUsuario" layoutX="10.0" layoutY="147.0" mnemonicParsing="false" onAction="#loadUsuario" prefHeight="25.0" prefWidth="153.0" text="Usuário" />
+                                    <Button fx:id="buttonQuarto" layoutX="38.0" layoutY="110.0" mnemonicParsing="false" onAction="#loadQuarto" text="Quarto" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0" />
+                                    <Button fx:id="buttonUsuario" layoutX="19.0" layoutY="183.0" mnemonicParsing="false" onAction="#loadUsuario" text="Usuário" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -47,14 +47,14 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="buttonOpenReservas" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" onAction="#openReservas" prefHeight="38.0" prefWidth="146.0" text="Controle de Reservas">
+                                    <Button fx:id="buttonOpenReservas" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" onAction="#openReservas" text="Controle de Reservas" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="buttonReserva" layoutX="15.0" layoutY="24.0" mnemonicParsing="false" onAction="#loadReserva" prefHeight="35.0" prefWidth="143.0" text="Check-In Reservas">
+                                    <Button fx:id="buttonReserva" layoutX="15.0" layoutY="24.0" mnemonicParsing="false" onAction="#loadReserva" text="Check-In Reservas" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <font>
-                                          <Font size="15.0" />
+                                          <Font size="13.0" />
                                        </font>
                                     </Button>
                                  </children>
@@ -63,12 +63,19 @@
                         </TitledPane>
                       <TitledPane animated="false" prefHeight="206.0" prefWidth="179.0" text="Relatórios">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="61.0" layoutY="14.0" mnemonicParsing="false" text="Relatórios de Check-Out" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
+                                 </children></AnchorPane>
                         </content>
                       </TitledPane>
                       <TitledPane animated="false" text="Gráficos">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="61.0" layoutY="14.0" mnemonicParsing="false" text="Reservas no Mês" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
+                                    <Button layoutX="61.0" layoutY="57.0" mnemonicParsing="false" text="Valor Total No Mês" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                 </children></AnchorPane>
                         </content>
                       </TitledPane>
                     </panes>

@@ -2,6 +2,8 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.QuartoDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Quarto;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -69,13 +70,9 @@ public class FXMLQuartoListaController implements Initializable {
 
     private void openForm(Quarto quarto, ActionEvent event) {
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLQuartoCadastro.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLQuartoCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Quarto");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -87,25 +84,21 @@ public class FXMLQuartoListaController implements Initializable {
 
             controller.setCliente(quarto);
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");                  
-            alert.setContentText("Por favor, tente realizar a operação novamente!");          
-            alert.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
         loadData();
     }
 
     @FXML
     private void edit(ActionEvent event) {
-        Quarto quarto = tableData.getSelectionModel().getSelectedItem();
-        this.openForm(quarto, event);
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
+            Quarto quarto = tableData.getSelectionModel().getSelectedItem();
+            this.openForm(quarto, event);
+        } else {
+            AlertHandler.chooseRecordException();
+        }    
     }
 
     @FXML
@@ -121,19 +114,10 @@ public class FXMLQuartoListaController implements Initializable {
                 quartoDAO.delete(quarto.getId());
                 tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
             } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");    
-                alert.setContentText("Por favor, tente realizar a operação novamente!");                  
-                alert.showAndWait();
+                AlertHandler.removeRecordException(e);
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");               
-            alert.setContentText("Por favor, selecione um registro na tabela!");       
-            alert.showAndWait();
+            AlertHandler.chooseRecordException();
         }
     }
 }

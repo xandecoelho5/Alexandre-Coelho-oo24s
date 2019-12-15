@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="547.0" prefWidth="686.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.utfpr.alexandre.coelho.oo24s.controller.FXMLProdutosListaReservaController">
     <children>
@@ -17,11 +18,16 @@
          <children>
             <AnchorPane prefHeight="115.0" prefWidth="686.0">
                <children>
-                  <Button fx:id="buttonNovoProduto" layoutX="502.0" layoutY="36.0" mnemonicParsing="false" onAction="#newProduct" prefHeight="25.0" prefWidth="72.0" text="Novo" />
-                  <ChoiceBox fx:id="cbProdutos" layoutX="140.0" layoutY="37.0" prefHeight="25.0" prefWidth="354.0" />
-                  <Label layoutX="271.0" layoutY="14.0" text="Controle de Produtos/Serviços" />
-                  <Button fx:id="buttonRemoveFromList" layoutX="362.0" layoutY="71.0" mnemonicParsing="false" onAction="#removeFromList" text="Remover da lista" />
-                  <Button fx:id="buttonAddToList" layoutX="247.0" layoutY="72.0" mnemonicParsing="false" onAction="#addToList" text="Adicionar na lista" />
+                  <Button fx:id="buttonNovoProduto" layoutX="537.0" layoutY="72.0" mnemonicParsing="false" onAction="#newProduct" prefHeight="25.0" prefWidth="135.0" text="Novo Produto/Serviço" />
+                  <ChoiceBox fx:id="cbProdutos" layoutX="62.0" layoutY="42.0" prefHeight="25.0" prefWidth="354.0" />
+                  <Label layoutX="239.0" layoutY="1.0" text="Controle de Produtos/Serviços">
+                     <font>
+                        <Font name="System Italic" size="18.0" />
+                     </font></Label>
+                  <Button fx:id="buttonRemoveFromList" layoutX="356.0" layoutY="72.0" mnemonicParsing="false" onAction="#removeFromList" text="Remover da lista" />
+                  <Button fx:id="buttonAddToList" layoutX="236.0" layoutY="72.0" mnemonicParsing="false" onAction="#addToList" text="Adicionar na lista" />
+                  <TextField fx:id="textQtde" layoutX="505.0" layoutY="42.0" prefHeight="25.0" prefWidth="49.0" text="1" />
+                  <Label layoutX="434.0" layoutY="46.0" text="Quantidade:" />
                </children>
             </AnchorPane>
          </children>
@@ -37,8 +43,12 @@
         </TableView>
       <Pane prefHeight="50.0" prefWidth="686.0">
          <children>
-            <Label layoutX="97.0" layoutY="14.0" text="Valor total atual: " />
-            <TextField fx:id="textTotal" layoutX="200.0" layoutY="10.0" />
+            <Label layoutX="482.0" layoutY="17.0" text="Valor total atual: " />
+            <TextField fx:id="textTotal" layoutX="582.0" layoutY="13.0" prefHeight="25.0" prefWidth="90.0" />
+            <Label layoutX="14.0" layoutY="17.0" text="Valor Diárias:" />
+            <TextField fx:id="textValDiarias" layoutX="91.0" layoutY="13.0" prefHeight="25.0" prefWidth="81.0" />
+            <Label layoutX="215.0" layoutY="17.0" text="Valor Produtos/Serviços:" />
+            <TextField fx:id="textValProdutos" layoutX="355.0" layoutY="13.0" prefHeight="25.0" prefWidth="81.0" />
          </children>
       </Pane>
     </children>

@@ -2,6 +2,8 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Produtos;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,11 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -61,13 +60,9 @@ public class FXMLProdutosListaController implements Initializable {
 
     private void openForm(Produtos produto, ActionEvent event) {
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLProdutosCadastro.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLProdutosCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Produtos/Serviços");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -80,25 +75,21 @@ public class FXMLProdutosListaController implements Initializable {
 
             controller.setProduto(produto);
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");
-            alert.setContentText("Por favor, tente realizar a operação novamente!");
-            alert.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
         loadData();
     }
 
     @FXML
     private void edit(ActionEvent event) {
-        Produtos produto = tableData.getSelectionModel().getSelectedItem();
-        this.openForm(produto, event);
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
+            Produtos produto = tableData.getSelectionModel().getSelectedItem();
+            this.openForm(produto, event);
+        } else {
+            AlertHandler.chooseRecordException();
+        }
     }
 
     @FXML
@@ -114,19 +105,10 @@ public class FXMLProdutosListaController implements Initializable {
                 produtoDao.delete(produto.getId());
                 tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
             } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");
-                alert.setContentText("Por favor, tente realizar a operação novamente!");
-                alert.showAndWait();
+                AlertHandler.removeRecordException(e);
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");
-            alert.setContentText("Por favor, selecione um registro na tabela!");
-            alert.showAndWait();
+            AlertHandler.chooseRecordException();
         }
     }
 }

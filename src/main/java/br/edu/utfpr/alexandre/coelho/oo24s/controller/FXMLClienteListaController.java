@@ -2,6 +2,8 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -40,12 +41,12 @@ public class FXMLClienteListaController implements Initializable {
     private Button buttonEdit;
 
     private ClienteDAO clienteDao;
-    private ObservableList<Cliente> list = FXCollections.observableArrayList();         
+    private ObservableList<Cliente> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.clienteDao = new ClienteDAO();
-        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);             
+        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setColumnProperties();
         loadData();
     }
@@ -53,9 +54,9 @@ public class FXMLClienteListaController implements Initializable {
     private void setColumnProperties() {
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefoneComercial"));  
-        this.columnEmail.setCellValueFactory(new PropertyValueFactory<>("email")); 
-        this.columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf")); 
+        this.columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefoneComercial"));
+        this.columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        this.columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
     }
 
     private void loadData() {
@@ -64,21 +65,11 @@ public class FXMLClienteListaController implements Initializable {
         tableData.setItems(list);
     }
 
-  /*  public FXMLClienteListaController() {
-         this.clienteDao = new ClienteDAO();
-        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);             
-        setColumnProperties();  
-    }*/
-    
     public void openForm(Cliente cliente, ActionEvent event) {
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));                
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Cliente");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -90,25 +81,21 @@ public class FXMLClienteListaController implements Initializable {
 
             controller.setCliente(cliente);
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");       
-            alert.setContentText("Por favor, tente realizar a operação novamente!");      
-            alert.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
         loadData();
     }
 
     @FXML
     private void edit(ActionEvent event) {
-        Cliente cliente = tableData.getSelectionModel().getSelectedItem();
-        this.openForm(cliente, event);
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
+            Cliente cliente = tableData.getSelectionModel().getSelectedItem();
+            this.openForm(cliente, event);
+        } else {
+            AlertHandler.chooseRecordException();
+        }
     }
 
     @FXML
@@ -120,23 +107,14 @@ public class FXMLClienteListaController implements Initializable {
     private void delete(ActionEvent event) {
         if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
-                Cliente cliente = tableData.getSelectionModel().getSelectedItem();                      
+                Cliente cliente = tableData.getSelectionModel().getSelectedItem();
                 clienteDao.delete(cliente.getId());
-                tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());                     
+                tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
             } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");                      
-                alert.setContentText("Por favor, tente realizar a operação novamente!");                      
-                alert.showAndWait();
+                AlertHandler.removeRecordException(e);
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");  
-            alert.setContentText("Por favor, selecione um registro na tabela!");   
-            alert.showAndWait();
+            AlertHandler.chooseRecordException();
         }
     }
 }

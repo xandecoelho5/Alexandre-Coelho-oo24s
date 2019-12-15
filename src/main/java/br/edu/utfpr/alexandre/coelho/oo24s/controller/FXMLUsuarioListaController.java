@@ -2,6 +2,8 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.UsuarioDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -35,18 +36,18 @@ public class FXMLUsuarioListaController implements Initializable {
 
     private UsuarioDAO usuarioDao;
     private ObservableList<Usuario> list = FXCollections.observableArrayList();
-           
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.usuarioDao = new UsuarioDAO();
-        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);           
+        this.tableData.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setColumnProperties();
         loadData();
     }
 
     private void setColumnProperties() {
-        this.columnId.setCellValueFactory(new PropertyValueFactory<>("id"));      
-        this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome")); 
+        this.columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
     }
 
     private void loadData() {
@@ -55,45 +56,37 @@ public class FXMLUsuarioListaController implements Initializable {
         tableData.setItems(list);
     }
 
-    private void openForm(Usuario usuario, ActionEvent event) {         
+    private void openForm(Usuario usuario, ActionEvent event) {
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLUsuarioCadastro.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLUsuarioCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Usuário");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(((Node) buttonEdit).getScene().getWindow());
-             
+
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
             FXMLUsuarioCadastroController controller = loader.getController();
             controller.setUsuario(usuario);
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");             
-            alert.setContentText("Por favor, tente realizar a operação novamente!");          
-            alert.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
         loadData();
     }
 
     @FXML
     private void edit(ActionEvent event) {
-        Usuario usuario = tableData.getSelectionModel().getSelectedItem();             
-        this.openForm(usuario, event);
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
+            Usuario usuario = tableData.getSelectionModel().getSelectedItem();
+            this.openForm(usuario, event);
+        } else {
+            AlertHandler.chooseRecordException();
+        }
     }
 
     @FXML
@@ -103,25 +96,17 @@ public class FXMLUsuarioListaController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {             
+        // NAO DEIXAR EXCLUIR O USUÁRIO ATUAL
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
-                Usuario usuario = tableData.getSelectionModel().getSelectedItem();           
+                Usuario usuario = tableData.getSelectionModel().getSelectedItem();
                 usuarioDao.delete(usuario.getId());
                 tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
             } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");                     
-                alert.setContentText("Por favor, tente realizar a operação novamente!");              
-                alert.showAndWait();
+                AlertHandler.removeRecordException(e);
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");                  
-            alert.setContentText("Por favor, selecione um registro na tabela!");                 
-            alert.showAndWait();
+            AlertHandler.chooseRecordException();
         }
-    }     
+    }
 }

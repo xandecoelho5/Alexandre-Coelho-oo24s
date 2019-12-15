@@ -1,15 +1,13 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ProdutosDAO;
-import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Produtos;
-import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.ReservaProdutos;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +18,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,21 +45,22 @@ public class FXMLProdutosListaReservaController implements Initializable {
     private ChoiceBox cbProdutos;
     @FXML
     private TextField textTotal;
+    @FXML
+    private TextField textQtde;
+    @FXML
+    private TextField textValDiarias;
+    @FXML
+    private TextField textValProdutos;
 
     private ProdutosDAO produtoDao;
-    private ReservaDAO reservaDAO;
     private ReservaProdutosDAO reservaProdutosDAO;
     private ObservableList<ReservaProdutos> list = FXCollections.observableArrayList();
-    private List<Produtos> prodSelecionados;
+    private final DecimalFormat df = new DecimalFormat("R$0.00");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.produtoDao = new ProdutosDAO();
-        this.reservaDAO = new ReservaDAO();
         this.reservaProdutosDAO = new ReservaProdutosDAO();
-        this.prodSelecionados = new ArrayList<>();
-
-        //prodSelecionados.addAll(produtoDao.getByReservaId(FXMLReservaManutController.getReserva().getId()));
 
         atualizaProdutos();
         setColumnProperties();
@@ -74,7 +72,7 @@ public class FXMLProdutosListaReservaController implements Initializable {
         columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         columnNome.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdutos().getNome()));
         columnValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        columnQuantidade.setCellFactory(new PropertyValueFactory<>("quantidade"));
+        columnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         columnCategoria.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdutos().getCategoria()));
     }
 
@@ -86,15 +84,17 @@ public class FXMLProdutosListaReservaController implements Initializable {
 
     @FXML
     private void addToList(ActionEvent event) {
-        Produtos produto = (Produtos) this.cbProdutos.getValue();
-        ReservaProdutos reservaProduto = new ReservaProdutos();
-        reservaProduto.setProdutos(produto);
-        reservaProduto.setQuantidade(10);
-        reservaProduto.setReserva(FXMLReservaManutController.getReserva());
-        reservaProduto.setValor(produto.getValor());
-        reservaProdutosDAO.insert(reservaProduto);
-        loadData();
-        calcularTotal();
+        if (cbProdutos.getValue() != null) {
+            Produtos produto = (Produtos) this.cbProdutos.getValue();
+            ReservaProdutos reservaProduto = new ReservaProdutos();
+            reservaProduto.setProdutos(produto);
+            reservaProduto.setQuantidade(Integer.parseInt(textQtde.getText()));
+            reservaProduto.setReserva(FXMLReservaManutController.getReserva());
+            reservaProduto.setValor(produto.getValor());
+            reservaProdutosDAO.insert(reservaProduto);
+            loadData();
+            calcularTotal();
+        }
     }
 
     private void atualizaProdutos() {
@@ -103,9 +103,13 @@ public class FXMLProdutosListaReservaController implements Initializable {
     }
 
     private void calcularTotal() {
-        DecimalFormat df = new DecimalFormat("R$0.00");
+        Double diarias = FXMLReservaManutController.getReserva().getValorDiaria() * FXMLReservaManutController.getDias();
+        textValDiarias.setText(df.format(diarias));
+        System.out.println(FXMLReservaManutController.getReserva().getValorTotal());
         Double total = list.stream().mapToDouble(v -> v.getValor() * v.getQuantidade()).sum();
-        textTotal.setText(df.format(total));
+        textValProdutos.setText(df.format(total));
+
+        textTotal.setText(df.format(diarias + total));
     }
 
     @FXML
@@ -115,12 +119,12 @@ public class FXMLProdutosListaReservaController implements Initializable {
                 ReservaProdutos reservaProd = tableData.getSelectionModel().getSelectedItem();
                 reservaProdutosDAO.delete(reservaProd.getId());
                 calcularTotal();
+                loadData();
             } catch (Exception e) {
-                e.printStackTrace();
-                showAlert("Ocorreu um erro ao remover o registro!", "Por favor, tente realizar a operação novamente!");
+                AlertHandler.removeRecordException(e);                
             }
         } else {
-            showAlert("Nenhum registro selecionado", "Por favor, selecione um registro na tabela!");
+            AlertHandler.chooseRecordException();
         }
     }
 
@@ -144,17 +148,8 @@ public class FXMLProdutosListaReservaController implements Initializable {
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
             atualizaProdutos();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Ocorreu um erro ao abrir a janela de cadastro!", "Por favor, tente realizar a operação novamente!");
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
-    }
-
-    private void showAlert(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

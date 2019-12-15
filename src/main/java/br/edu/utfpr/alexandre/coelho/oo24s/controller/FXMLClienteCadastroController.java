@@ -70,7 +70,6 @@ public class FXMLClienteCadastroController implements Initializable {
         cliente.setEndereco(cbEndereco.getValue().toString());
                 
         this.clienteDAO.save(cliente);
-        
         this.stage.close();
     }
 

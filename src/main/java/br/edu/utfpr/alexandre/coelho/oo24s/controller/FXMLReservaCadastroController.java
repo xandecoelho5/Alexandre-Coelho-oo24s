@@ -8,6 +8,8 @@ import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Quarto;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +137,6 @@ public class FXMLReservaCadastroController implements Initializable {
         reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
 
         this.reservaDAO.save(reserva);
-
         this.stage.close();
     }
 
@@ -195,9 +196,8 @@ public class FXMLReservaCadastroController implements Initializable {
             controller.setCliente(new Cliente());
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-            exibeAlerta();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
     }
     
@@ -219,17 +219,8 @@ public class FXMLReservaCadastroController implements Initializable {
             controller.setHospede(new Hospede());
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-            exibeAlerta();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
-    }
-    
-    private void exibeAlerta(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");       
-        alert.setContentText("Por favor, tente realizar a operação novamente!");      
-        alert.showAndWait();
     }
 }

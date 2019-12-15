@@ -2,6 +2,8 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.HospedeDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -60,13 +62,9 @@ public class FXMLHospedeListaController implements Initializable {
 
     public void openForm(Hospede hospede, ActionEvent event) {
         try {
-            // Carregar o arquivo fxml e cria um
-            //novo stage para a janela Modal
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/fxml/FXMLHospedeCadastro.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLHospedeCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
-            //Criando o stage para o modal
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Cadastro de Hóspede");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -78,25 +76,21 @@ public class FXMLHospedeListaController implements Initializable {
 
             controller.setHospede(hospede);
             controller.setDialogStage(dialogStage);
-            // Exibe a janela Modal e espera até o usuário
-            //fechar
             dialogStage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");                  
-            alert.setContentText("Por favor, tente realizar a operação novamente!");          
-            alert.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
         }
         loadData();
     }
 
     @FXML
     private void edit(ActionEvent event) {
-        Hospede hospede = tableData.getSelectionModel().getSelectedItem();
-        this.openForm(hospede, event);
+        if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
+            Hospede hospede = tableData.getSelectionModel().getSelectedItem();
+            this.openForm(hospede, event);
+        } else {
+            AlertHandler.chooseRecordException();
+        }
     }
 
     @FXML
@@ -112,19 +106,10 @@ public class FXMLHospedeListaController implements Initializable {
                 hospedeDAO.delete(hospede.getId());
                 tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
             } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText("Ocorreu um erro ao remover o registro!");    
-                alert.setContentText("Por favor, tente realizar a operação novamente!");                  
-                alert.showAndWait();
+                AlertHandler.removeRecordException(e);
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Nenhum registro selecionado");               
-            alert.setContentText("Por favor, selecione um registro na tabela!");       
-            alert.showAndWait();
+            AlertHandler.chooseRecordException();
         }
     }
 }

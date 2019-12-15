@@ -6,7 +6,6 @@ import br.edu.utfpr.alexandre.coelho.oo24s.dao.QuartoDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
-import br.edu.utfpr.alexandre.coelho.oo24s.model.Quarto;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
 import java.io.IOException;
@@ -14,9 +13,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -34,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JOptionPane;
 
 public class FXMLReservaManutController implements Initializable {
 
@@ -67,6 +65,7 @@ public class FXMLReservaManutController implements Initializable {
     private ReservaDAO reservaDAO;
     private Stage stage;
     private static Reserva reserva;
+    private static Integer diasPercorridos;
     private ClienteDAO clienteDAO;
     private HospedeDAO hospedeDAO;
     private QuartoDAO quartoDAO;
@@ -104,6 +103,10 @@ public class FXMLReservaManutController implements Initializable {
 
     public static Reserva getReserva() {
         return reserva;
+    }
+    
+    public static Integer getDias() {
+        return diasPercorridos;
     }
     
     public VBox openVBox(String url) throws IOException {
@@ -147,7 +150,7 @@ public class FXMLReservaManutController implements Initializable {
     public void checkoutReserva(ActionEvent event) {
         reserva.setAberta(Boolean.FALSE);
         reservaDAO.update(reserva);
-        System.out.println("Reserva Finalizada!");
+        JOptionPane.showMessageDialog(null, "Reserva Finalizada!");
         this.stage.close();
         //if day > dataReservaFinal
         //gera relatorios;
@@ -156,10 +159,10 @@ public class FXMLReservaManutController implements Initializable {
     private void setProgress() {
         LocalDate dataFinal = LocalDate.parse(dateEnd.getText());
         LocalDate dataInicial = LocalDate.parse(dateStart.getText());
-        Period pDatas = Period.between(dataInicial, dataFinal);
-        Period pGeral = Period.between(LocalDate.now(), dataFinal);   
+        int diasTotal = Period.between(dataInicial, dataFinal).getDays();
+        int diasFaltas = Period.between(LocalDate.now(), dataFinal).getDays();   
+        diasPercorridos = Period.between(dataInicial, LocalDate.now()).getDays();  
         
-        Double percent = Double.valueOf(pGeral.getDays()) / pDatas.getDays();
-        progressReserva.progressProperty().set(percent);
+        progressReserva.progressProperty().set(Double.valueOf(diasFaltas) / diasTotal);
     }
 }

@@ -6,30 +6,25 @@ public class AlertHandler {
 
     private static final Alert ALERT = new Alert(Alert.AlertType.ERROR);
 
-    public AlertHandler() {
-        ALERT.setTitle("Erro");
-    }
-
     public static void openFormException(Exception ex) {
-        System.out.println(ex.getMessage());
-        ALERT.setTitle("Erro");
-        ALERT.setHeaderText("Ocorreu um erro ao abrir a janela de cadastro!");
-        ALERT.setContentText("Por favor, tente realizar a operação novamente!");
-        ALERT.showAndWait();
+        setAlert("Ocorreu um erro ao abrir a janela de cadastro!", "Por favor, tente realizar a operação novamente!", ex);
     }
 
-    public static void removeRecordException(Exception ex) {//String header, String content, 
-        System.out.println(ex.getMessage());
-        ALERT.setTitle("Erro");
-        ALERT.setHeaderText("Ocorreu um erro ao remover o registro!");
-        ALERT.setContentText("Por favor, tente realizar a operação novamente!");
-        ALERT.showAndWait();
+    public static void removeRecordException(Exception ex) {
+        setAlert("Ocorreu um erro ao remover o registro!", "Por favor, tente realizar a operação novamente!", ex);
     }
 
     public static void chooseRecordException() {
         ALERT.setTitle("Erro");
         ALERT.setHeaderText("Nenhum registro selecionado");
         ALERT.setContentText("Por favor, selecione um registro na tabela!");
+        ALERT.showAndWait();
+    }
+    
+    public static void cantDeleteException() {
+        ALERT.setTitle("Erro");
+        ALERT.setHeaderText("Seleção Indisponível");
+        ALERT.setContentText("Não é possível excluir o usuário que está logado!");
         ALERT.showAndWait();
     }
 
@@ -42,10 +37,18 @@ public class AlertHandler {
     }
 
     public static void loginException(Exception ex) {
+        setAlert("Usuário e/ou senha inválidos!", "Por favor, tente novamente!", ex);
+    }
+
+    public static void showReportException(Exception ex) {
+        setAlert("Falha ao exibir relatório!", "Falha ao exibir relatório!", ex);   
+    }
+   
+    private static void setAlert(String header, String context, Exception ex){
         System.out.println(ex.getMessage());
         ALERT.setTitle("Erro");
-        ALERT.setHeaderText("Usuário e/ou senha inválidos!");
-        ALERT.setContentText("Por favor, tente novamente!");
+        ALERT.setHeaderText(header);
+        ALERT.setContentText(context);
         ALERT.showAndWait();
     }
 }

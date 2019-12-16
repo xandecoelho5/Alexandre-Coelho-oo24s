@@ -4,16 +4,23 @@ import br.edu.utfpr.alexandre.coelho.oo24s.dao.ClienteDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.HospedeDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.QuartoDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
+import br.edu.utfpr.alexandre.coelho.oo24s.db.DatabaseConnection;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Cliente;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Hospede;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
+import br.edu.utfpr.alexandre.coelho.oo24s.report.GenerateReport;
+import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.awt.Image;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -23,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -31,7 +39,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class FXMLReservaManutController implements Initializable {
 
@@ -82,7 +93,6 @@ public class FXMLReservaManutController implements Initializable {
         //ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getAll());
         List<Cliente> listaClientes = new ArrayList<>();
         listaClientes.addAll(clienteDAO.getClientesComReserva());
-        System.out.println(listaClientes);
         ObservableList<Cliente> clientes = FXCollections.observableArrayList(listaClientes);
         
         this.cbCliente.setItems(clientes); //only clientes that have reservas;
@@ -154,6 +164,8 @@ public class FXMLReservaManutController implements Initializable {
         this.stage.close();
         //if day > dataReservaFinal
         //gera relatorios;
+        GenerateReport gp = new GenerateReport();
+        
     }
     
     private void setProgress() {
@@ -163,6 +175,35 @@ public class FXMLReservaManutController implements Initializable {
         int diasFaltas = Period.between(LocalDate.now(), dataFinal).getDays();   
         diasPercorridos = Period.between(dataInicial, LocalDate.now()).getDays();  
         
-        progressReserva.progressProperty().set(Double.valueOf(diasFaltas) / diasTotal);
+        progressReserva.progressProperty().set(1 - (Double.valueOf(diasFaltas) / diasTotal));
     }
+    
+    /*@FXML
+    private void showReport(ActionEvent event) {
+        GenerateReport generateReport = new GenerateReport();
+        InputStream file = this.getClass().getResourceAsStream("/report/Reserva.jasper");
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("TITULO", "Relatório do Resumo da Reserva - JavaFx");
+        Image imagem = new ImageIcon(this.getClass().getResource("/imagens/logoUTFPR.jpg")).getImage();        
+        parameters.put("LOGO", imagem);
+
+        DatabaseConnection conn = DatabaseConnection.getInstance();
+        try {
+            JasperViewer viewer = generateReport.getReport(conn.getConnection(), parameters, file);       
+            viewer.setVisible(true);
+        } catch (JRException e) {
+            AlertHandler.showReportException(e);
+        }
+    }
+
+    @FXML
+    private void showPieChart(ActionEvent event) throws IOException {
+        setDataPane(openVBox("/fxml/FXMLPieChart.fxml"));
+    }
+
+    @FXML
+    private void showBarChart(ActionEvent event) throws IOException {
+        setDataPane(openVBox("/fxml/FXMLBarChart.fxml"));
+    }*/
 }

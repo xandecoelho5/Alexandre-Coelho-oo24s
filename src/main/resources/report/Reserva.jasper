@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reserva" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="051802d4-a1a8-4597-b353-b06565370b3e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Trabalho Final"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="154"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="839"/>
+	<queryString language="SQL">
+		<![CDATA[select r.dataEntrada, r.dataReserva, r.dataSaida, r.motivo, r.valorDiaria, 
+       c.nome, q.numero, p.nome nomeProduto, rp.quantidade, rp.valor	,
+        rp.quantidade * rp.valor totalPorProduto
+from reserva r
+join cliente c
+on (r.cliente_id = c.id)
+join quarto q
+on (r.quarto_id = q.id)
+join reservaprodutos rp 
+on (r.id = rp.reserva_id)
+join produtos p
+on (p.id = rp.produtos_id)]]>
+	</queryString>
+	<field name="dataentrada" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="dataentrada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
+	</field>
+	<field name="datareserva" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="datareserva"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
+	</field>
+	<field name="datasaida" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="datasaida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
+	</field>
+	<field name="motivo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="motivo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
+	</field>
+	<field name="valordiaria" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valordiaria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="quarto"/>
+	</field>
+	<field name="nomeproduto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeproduto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produtos"/>
+	</field>
+	<field name="quantidade" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="quantidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reservaprodutos"/>
+	</field>
+	<field name="valor" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reservaprodutos"/>
+	</field>
+	<field name="totalPorProduto" class="java.lang.Double"/>
+	<variable name="totalPorProduto1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalPorProduto}]]></variableExpression>
+	</variable>
+	<variable name="totalDiaria" class="java.lang.Double">
+		<variableExpression><![CDATA[($F{datasaida}.getDate() - $F{dataentrada}.getDate()) * $F{valordiaria}]]></variableExpression>
+	</variable>
+	<variable name="totalTotal" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{totalDiaria} + $V{totalPorProduto1}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="24" width="190" height="30" uuid="d4c2fab0-9f88-4334-a4c2-21a1ce4866e3"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Resumo da Reserva]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="145" splitType="Stretch">
+			<textField>
+				<reportElement x="260" y="50" width="80" height="15" uuid="f78463ca-9f81-4db5-9b5c-eeb6cf447a88">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{dataentrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="50" width="75" height="15" uuid="05708b0f-31bf-4390-847a-aa3d27f2e5a4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{datareserva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="50" width="65" height="15" uuid="4b1f6999-9a37-4ee9-bd40-9fcde6dd8226">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{datasaida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="70" width="340" height="15" uuid="6afe84dc-25f5-4bb5-aad4-e04e166b9765"/>
+				<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="50" width="70" height="15" uuid="474460fc-b27e-4088-80a4-2d85ac883f9a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Data Entrada:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="70" height="15" uuid="b984b992-5d14-45bb-84e1-7365673fbd35">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Data Reserva:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="51" width="60" height="15" uuid="4b590b63-ba38-48eb-bf47-b12f22d983b2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Data Saída:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="10" width="340" height="15" uuid="18a5dab7-6517-4b3f-a61f-de2bc8acd887"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="40" height="15" uuid="a390d9fc-c482-4159-831c-25debc5700e1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Cliente: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="30" width="140" height="15" uuid="b21f5b25-2427-45ec-9a5e-5edac2f6f4e0"/>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="40" height="15" uuid="353c7a42-8d37-4687-8cde-9934dfdc113d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Quarto: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="40" height="15" uuid="45409c83-58c3-4edb-b9a0-26396e17c2be">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Motivo: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="110" width="420" height="29" uuid="ddb203fb-fa59-4c1c-95ac-ffb564be805f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[Produtos/Serviços utilizados durante a estadia:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="10" width="100" height="20" uuid="90903a25-f089-4a90-8f3c-02f12619547c"/>
+				<text><![CDATA[Produto/Serviço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="10" width="100" height="20" uuid="4546f78c-f906-46e3-ace3-40f50f1cb3b3"/>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="10" width="100" height="20" uuid="dcac29ff-1e93-4e22-8fe6-c2cd6606ebcf"/>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="10" width="100" height="20" uuid="9bd3879e-8948-4d68-a48c-70862f2532f8"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="5" width="100" height="20" uuid="4a8043a2-b384-4b3d-8fc7-78c40907a572">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a5e2097d-73d9-47da-9100-ca6f7f2ae11e"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nomeproduto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="5" width="100" height="20" uuid="f9030c4f-0277-401e-958a-a5e7e02f056f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4cf59c-7a3d-4a6a-812f-00b7b70702cd"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="5" width="100" height="20" uuid="325b8847-6a11-4efe-9e34-51335b825ae1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a72244d3-ffe5-419e-a3c3-13675876e351"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="5" width="100" height="20" uuid="455f7f3d-d5e4-4600-844b-a5f79e4fc37c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0600c265-085a-4423-8c08-6b176ae07af4"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{totalPorProduto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="7" width="70" height="18" uuid="cb9b3d6c-be8a-434a-aac1-bf38f8053753"/>
+				<text><![CDATA[Total Diárias: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="500" y="7" width="65" height="18" uuid="f93d331a-89e7-4e75-873f-702d4b564e18"/>
+				<textFieldExpression><![CDATA[$V{totalTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="465" y="7" width="30" height="18" uuid="e9972dcb-0964-4f91-aa31-613d15cfe80d"/>
+				<text><![CDATA[Total: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="7" width="120" height="18" uuid="68b036e2-20d6-49ef-9137-339fca200e12"/>
+				<text><![CDATA[Total Produtos/Serviços: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="85" y="7" width="75" height="17" uuid="02d838aa-6ffb-4687-af51-eafcc83e068a"/>
+				<textFieldExpression><![CDATA[$V{totalDiaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="7" width="80" height="17" uuid="a4aca4d8-b43c-4d6d-a72f-db37998a24d2"/>
+				<textFieldExpression><![CDATA[$V{totalPorProduto1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch"/>
+	</summary>
+</jasperReport>

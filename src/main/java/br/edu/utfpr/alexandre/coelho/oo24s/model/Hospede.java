@@ -2,17 +2,12 @@ package br.edu.utfpr.alexandre.coelho.oo24s.model;
 
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Hospede implements AbstractModel {
@@ -45,12 +40,7 @@ public class Hospede implements AbstractModel {
     @Column(length = 20, nullable = false)
     private String numeroPassaporte;
 
-//    @ManyToOne
-//    @JoinColumn(name = "reserva_id", referencedColumnName = "id")
-//    private Reserva reserva;;
-//    @OneToMany(mappedBy = "hospede", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes 
-//    private List<Reserva> reservas;
-    @ManyToMany(mappedBy="hospedes")
+    @ManyToMany(mappedBy = "hospedes")
     private List<Reserva> reservas;
 
     public List<Reserva> getReservas() {
@@ -60,8 +50,6 @@ public class Hospede implements AbstractModel {
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
-    
-    
 
     public Hospede() {
     }

@@ -117,9 +117,9 @@ public class FXMLProdutosListaReservaController implements Initializable {
         if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
                 ReservaProdutos reservaProd = tableData.getSelectionModel().getSelectedItem();
-                reservaProdutosDAO.delete(reservaProd.getId());
-                calcularTotal();
+                reservaProdutosDAO.delete(reservaProd.getId());              
                 loadData();
+                calcularTotal();
             } catch (Exception e) {
                 AlertHandler.removeRecordException(e);                
             }

@@ -50,17 +50,9 @@ public class Reserva implements AbstractModel {
     @Column(nullable = false)
     private Double valorDiaria;
 
-    @ManyToMany
-    @JoinTable(name = "RESERVA_HOSPEDES")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "Reserva_Hospedes")
     private List<Hospede> hospedes;
-
-//    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 1 reserva para varios hospedes ;
-//    private List<Hospede> hospedes;
-//    @OneToMany(mappedBy = "reserva", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY);
-//    private List<Produtos> produtos;
-    /*@ManyToMany
-    @JoinTable(name = "RESERVA_PRODUTOS")
-    private List<Produtos> produtos;*/
     
     @OneToOne
     @JoinColumn(name = "usuario_id", unique = true, nullable = false, updatable = false)
@@ -178,14 +170,6 @@ public class Reserva implements AbstractModel {
     public void setValorDiaria(Double valorDiaria) {
         this.valorDiaria = valorDiaria;
     }
-
-    /*public List<Produtos> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produtos> produtos) {
-        this.produtos = produtos;
-    }*/
 
     @Override
     public int hashCode() {

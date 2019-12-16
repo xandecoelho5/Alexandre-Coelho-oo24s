@@ -1,9 +1,15 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
+import br.edu.utfpr.alexandre.coelho.oo24s.db.DatabaseConnection;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Usuario;
+import br.edu.utfpr.alexandre.coelho.oo24s.report.GenerateReport;
 import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
+import java.awt.Image;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -18,6 +24,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.ImageIcon;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class FXMLPrincipalController implements Initializable {
 
@@ -130,4 +138,33 @@ public class FXMLPrincipalController implements Initializable {
             AlertHandler.loadFormException("usuários", e);
         }
     }
+
+    /*@FXML
+    private void showReportProduto(ActionEvent event) {
+        GenerateReport generateReport = new GenerateReport();
+        InputStream file = this.getClass().getResourceAsStream("/report/Reserva.jrxml");
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("TITULO", "Relatório de Produtos - JavaFx");
+        Image imagem = new ImageIcon(this.getClass().getResource("/imagens/logoUTFPR.jpg")).getImage();
+        parameters.put("LOGO", imagem);
+
+        DatabaseConnection conn = DatabaseConnection.getInstance();
+        try {
+            JasperViewer viewer = generateReport.getReport(conn.getConnection(), parameters, file);
+            viewer.setVisible(true);
+        } catch (Exception e) {
+            AlertHandler.showReportException(e); 
+        }
+    }
+
+     @FXML
+    private void showPieChart(ActionEvent event) throws IOException {
+        setDataPane(openVBox("/fxml/FXMLPieChart.fxml"));
+    }
+
+    @FXML
+    private void showBarChart(ActionEvent event) throws IOException {
+        setDataPane(openVBox("/fxml/FXMLBarChart.fxml"));
+    }*/
 }

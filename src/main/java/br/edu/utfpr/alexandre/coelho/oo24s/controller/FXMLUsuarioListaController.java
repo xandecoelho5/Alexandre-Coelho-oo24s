@@ -96,12 +96,15 @@ public class FXMLUsuarioListaController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        // NAO DEIXAR EXCLUIR O USUÁRIO ATUAL
         if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
                 Usuario usuario = tableData.getSelectionModel().getSelectedItem();
-                usuarioDao.delete(usuario.getId());
-                tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
+                if (FXMLPrincipalController.getUsuarioAutenticado().getEmail().equals(usuario.getEmail())) {
+                    AlertHandler.cantDeleteException();
+                } else {
+                    usuarioDao.delete(usuario.getId());
+                    tableData.getItems().remove(tableData.getSelectionModel().getSelectedIndex());
+                }
             } catch (Exception e) {
                 AlertHandler.removeRecordException(e);
             }

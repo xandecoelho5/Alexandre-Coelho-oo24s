@@ -83,3 +83,65 @@ insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonec
 insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonecomercial, telefoneresidencial) values ('637.153.121-16', 'emendenhallj@tinyurl.com', 'Belo Horizonte - MG', 'Ernesta Mendenhall', 'BR988915', '17.742.959-2', '(02) 95752-7932', '(07) 92642-0735');
 
 insert into usuario (ativo, cpf, datanascimento, email, nome, senha) values ('T', '201.283.965-28', '2002-12-03', 'nn@a.com', 'Xandim', '1234');
+
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '08/11/2019', '12/04/2019', '12/26/2019', 'Product Management', 1, 1, 1, 50);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '05/30/2019', '12/12/2019', '12/22/2019', 'Product Management', 2, 2, 1, 75);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '10/23/2019', '12/06/2019', '12/21/2019', 'Marketing', 3, 3, 1, 150);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '06/23/2019', '12/06/2019', '12/19/2019', 'Marketing', 4, 4, 1, 200);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '07/26/2019', '12/11/2019', '12/26/2019', 'Product Management', 5, 5, 1, 250.5);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '10/16/2019', '12/13/2019', '12/30/2019', 'Legal', 6, 6, 1, 400.5);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '09/04/2019', '12/07/2019', '12/24/2019', 'Services', 7, 7, 1, 999.9);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '09/21/2019', '12/05/2019', '12/30/2019', 'Legal', 8, 8, 1, 998.9);
+
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (8, 7, 7, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 2, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (7, 1, 7, 4);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (6, 6, 7, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (1, 5, 6, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (2, 6, 2, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (6, 2, 6, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (3, 2, 7, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (2, 6, 1, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (3, 7, 4, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (10, 6, 5, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (9, 8, 3, 99);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (10, 6, 6, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (6, 6, 1, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (1, 7, 1, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (10, 5, 1, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (9, 2, 7, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 2, 4, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (9, 1, 7, 4);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (1, 7, 4, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 2, 1, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (7, 8, 8, 99);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 6, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (3, 2, 7, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (6, 8, 3, 99);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 6, 4, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 5, 5, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (1, 2, 4, 40);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (9, 4, 6, 6);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 6, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 8, 7, 99);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 7, 7, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 5, 1, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 4, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (2, 8, 7, 99);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (10, 4, 4, 6);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 1, 4, 4);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (7, 3, 4, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 3, 6, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 4, 1, 6);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 5, 5, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (9, 7, 4, 20);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (3, 4, 3, 6);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (10, 3, 3, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (3, 5, 1, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (1, 6, 1, 60);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (5, 3, 5, 8);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 5, 8, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 5, 8, 15);
+insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 4, 8);
+
+

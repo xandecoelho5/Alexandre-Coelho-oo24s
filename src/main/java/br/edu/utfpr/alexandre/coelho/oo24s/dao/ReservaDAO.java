@@ -19,7 +19,7 @@ public class ReservaDAO extends GenericDao<Reserva, Long> {
         return b1.longValue();
     }
 
-    public List<PieChart.Data> getReservasMesData() {
+    public List<Object[]> getReservasMesData() {
         Query query = em.createNativeQuery("select extract(month from r.datareserva) mes, count(*) quantidade "
                 + "from reserva r group by extract(month from r.datareserva)");
         return query.getResultList();

@@ -12,7 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.AnchorPane;
 
-public class FXMLPieChartController implements Initializable {
+public class FXMLChartValorController implements Initializable {
 
     @FXML
     private AnchorPane pane;
@@ -58,6 +58,5 @@ public class FXMLPieChartController implements Initializable {
         PieChart reservasMes = new PieChart(pieChartData);
         reservasMes.setTitle("Número de reservas por mês");
         pane.getChildren().add(reservasMes);
-    }
-
+    }  
 }

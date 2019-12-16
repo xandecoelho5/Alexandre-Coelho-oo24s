@@ -3,6 +3,7 @@ package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaProdutosDAO;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.Produtos;
+import br.edu.utfpr.alexandre.coelho.oo24s.model.Reserva;
 import br.edu.utfpr.alexandre.coelho.oo24s.model.ReservaProdutos;
 import br.edu.utfpr.alexandre.coelho.oo24s.util.AlertHandler;
 import java.io.IOException;
@@ -58,15 +59,18 @@ public class FXMLProdutosListaReservaController implements Initializable {
     private ReservaProdutosDAO reservaProdutosDAO;
     private ObservableList<ReservaProdutos> list = FXCollections.observableArrayList();
     private final DecimalFormat df = new DecimalFormat("R$0.00");
+    private Reserva reservaAtual;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.produtoDao = new ProdutosDAO();
         this.reservaProdutosDAO = new ReservaProdutosDAO();
-
+        this.reservaAtual = FXMLReservaManutController.getReserva(); 
+        
         atualizaProdutos();
         setColumnProperties();
         loadData();
+        calcularTotal();
     }
 
     private void setColumnProperties() {
@@ -80,7 +84,7 @@ public class FXMLProdutosListaReservaController implements Initializable {
 
     private void loadData() {
         list.clear();
-        list.addAll(reservaProdutosDAO.getAll());
+        list.addAll(reservaProdutosDAO.getAllByReservaId(reservaAtual.getId()));
         tableData.setItems(list);
     }
 
@@ -97,13 +101,13 @@ public class FXMLProdutosListaReservaController implements Initializable {
             }
             ReservaProdutos reservaProduto = new ReservaProdutos();
             reservaProduto.setProdutos(produto);
-            reservaProduto.setReserva(FXMLReservaManutController.getReserva());
+            reservaProduto.setReserva(reservaAtual);
             reservaProduto.setValor(produto.getValor());
             if (contem) {
-                int qtty = reservaProdutosDAO.getRPbyProdId(produto.getId(), FXMLReservaManutController.getReserva().getId()).getQuantidade();
+                int qtty = reservaProdutosDAO.getRPbyProdId(produto.getId(), reservaAtual.getId()).getQuantidade();
                 reservaProduto.setQuantidade(Integer.parseInt(textQtde.getText()) + qtty);
                 try {
-                    reservaProdutosDAO.delete(reservaProdutosDAO.getRPbyProdId(produto.getId(), FXMLReservaManutController.getReserva().getId()).getId());
+                    reservaProdutosDAO.delete(reservaProdutosDAO.getRPbyProdId(produto.getId(), reservaAtual.getId()).getId());
                 } catch (Exception ex) {
                     Logger.getLogger(FXMLProdutosListaReservaController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -122,9 +126,8 @@ public class FXMLProdutosListaReservaController implements Initializable {
     }
 
     private void calcularTotal() {
-        Double diarias = FXMLReservaManutController.getReserva().getValorDiaria() * FXMLReservaManutController.getDias();
+        Double diarias = reservaAtual.getValorDiaria() * FXMLReservaManutController.getDias();
         textValDiarias.setText(df.format(diarias));
-        System.out.println(FXMLReservaManutController.getReserva().getValorTotal());
         Double total = list.stream().mapToDouble(v -> v.getValor() * v.getQuantidade()).sum();
         textValProdutos.setText(df.format(total));
 

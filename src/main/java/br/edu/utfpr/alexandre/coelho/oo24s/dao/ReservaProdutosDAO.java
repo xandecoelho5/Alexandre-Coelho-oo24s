@@ -1,6 +1,7 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.dao;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.model.ReservaProdutos;
+import java.util.List;
 import javax.persistence.Query;
 
 public class ReservaProdutosDAO extends GenericDao<ReservaProdutos, Long> {
@@ -14,5 +15,11 @@ public class ReservaProdutosDAO extends GenericDao<ReservaProdutos, Long> {
         query.setParameter("idp", idp);
         query.setParameter("idr", idr);
         return (ReservaProdutos)query.getSingleResult();
+    }
+    
+    public List<ReservaProdutos> getAllByReservaId(Long id) {
+        Query query = em.createNativeQuery("select * from reservaprodutos where reserva_id = :id", ReservaProdutos.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

@@ -57,17 +57,6 @@ public class Usuario implements AbstractModel, Serializable{
     @Column()
     private byte[] foto;
     
-    /*@Column(length = 14, nullable = false)
-    private String telefone;
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }*/
-  
     public byte[] getFoto() {
         return foto;
     }

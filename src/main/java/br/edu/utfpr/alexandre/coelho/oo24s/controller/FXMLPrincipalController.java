@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -156,15 +157,30 @@ public class FXMLPrincipalController implements Initializable {
         } catch (Exception e) {
             AlertHandler.showReportException(e); 
         }
-    }
+    }*/
 
-     @FXML
+    /* @FXML
     private void showPieChart(ActionEvent event) throws IOException {
         setDataPane(openVBox("/fxml/FXMLPieChart.fxml"));
-    }
-
-    @FXML
-    private void showBarChart(ActionEvent event) throws IOException {
-        setDataPane(openVBox("/fxml/FXMLBarChart.fxml"));
     }*/
+    
+    @FXML
+    private void showPieChart(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLPieChart.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Controle de Reservas");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) buttonCliente).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            FXMLPieChartController controller = loader.getController();
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            AlertHandler.openFormException(e);
+        }
+    }
 }

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,11 +88,28 @@ public class FXMLProdutosListaReservaController implements Initializable {
     private void addToList(ActionEvent event) {
         if (cbProdutos.getValue() != null) {
             Produtos produto = (Produtos) this.cbProdutos.getValue();
+            Boolean contem = false;
+            for (ReservaProdutos reservaProdutos : list) {
+                if (reservaProdutos.getProdutos().getNome().equals(produto.getNome())) {
+                    contem = true;
+                    break;
+                }
+            }
             ReservaProdutos reservaProduto = new ReservaProdutos();
             reservaProduto.setProdutos(produto);
-            reservaProduto.setQuantidade(Integer.parseInt(textQtde.getText()));
             reservaProduto.setReserva(FXMLReservaManutController.getReserva());
             reservaProduto.setValor(produto.getValor());
+            if (contem) {
+                int qtty = reservaProdutosDAO.getRPbyProdId(produto.getId(), FXMLReservaManutController.getReserva().getId()).getQuantidade();
+                reservaProduto.setQuantidade(Integer.parseInt(textQtde.getText()) + qtty);
+                try {
+                    reservaProdutosDAO.delete(reservaProdutosDAO.getRPbyProdId(produto.getId(), FXMLReservaManutController.getReserva().getId()).getId());
+                } catch (Exception ex) {
+                    Logger.getLogger(FXMLProdutosListaReservaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                reservaProduto.setQuantidade(Integer.parseInt(textQtde.getText()));
+            }
             reservaProdutosDAO.insert(reservaProduto);
             loadData();
             calcularTotal();
@@ -117,11 +136,11 @@ public class FXMLProdutosListaReservaController implements Initializable {
         if (tableData.getSelectionModel().getSelectedIndex() >= 0) {
             try {
                 ReservaProdutos reservaProd = tableData.getSelectionModel().getSelectedItem();
-                reservaProdutosDAO.delete(reservaProd.getId());              
+                reservaProdutosDAO.delete(reservaProd.getId());
                 loadData();
                 calcularTotal();
             } catch (Exception e) {
-                AlertHandler.removeRecordException(e);                
+                AlertHandler.removeRecordException(e);
             }
         } else {
             AlertHandler.chooseRecordException();

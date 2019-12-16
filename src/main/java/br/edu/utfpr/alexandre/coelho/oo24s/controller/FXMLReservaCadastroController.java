@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +23,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -75,42 +73,14 @@ public class FXMLReservaCadastroController implements Initializable {
         this.hospedeDAO = new HospedeDAO();
         this.quartoDAO = new QuartoDAO();
         this.listaSelecionados = new ArrayList<>();
-        List<Reserva> reservas = new ArrayList<>(reservaDAO.getAll());
-        List<Quarto> quartos = new ArrayList<>(quartoDAO.getAll());
-        List<Hospede> hospedes = new ArrayList<>(hospedeDAO.getAll());
 
-        if (!reservas.isEmpty()) {
-            for (int i = 0; i < quartos.size(); i++) {
-                Long quartoId = quartos.get(i).getId();
-
-                for (int j = 0; j < reservas.size(); j++) {
-                    Long quartoResId = reservas.get(j).getQuarto().getId();
-                    if (Objects.equals(quartoId, quartoResId)) {
-                        quartos.remove(i);
-                    }
-                }
-            }
-            for (int i = hospedes.size()-1; i >= 0 ; i--) {
-                Long hospedeId = hospedes.get(i).getId();
-                
-                for (int j = 0; j < reservas.size(); j++) {
-                    for (int k = 0; k < reservas.get(j).getHospedes().size(); k++) { // 1 , 2 ,3 
-                        Long hospedeResId = reservas.get(j).getHospedes().get(k).getId(); // 1 2 3 1 e 1 remove; 
-                        if (Objects.equals(hospedeId, hospedeResId)) {
-                            hospedes.remove(hospedes.get(i));
-                        }
-                    }
-                }
-            }
-        }
-
-        ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getAll());
-        ObservableList<Quarto> quartosz = FXCollections.observableArrayList(quartos);
-        ObservableList<Hospede> hospedesz = FXCollections.observableArrayList(hospedes);
+        ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getSemReserva());
+        ObservableList<Quarto> quartos = FXCollections.observableArrayList(quartoDAO.getSemReserva());
+        ObservableList<Hospede> hospedes = FXCollections.observableArrayList(hospedeDAO.getHSemReserva());
 
         this.cbCliente.setItems(clientes);
-        this.cbQuarto.setItems(quartosz);
-        this.listHospedes.setItems(hospedesz);
+        this.cbQuarto.setItems(quartos);
+        this.listHospedes.setItems(hospedes);
         this.cbQuarto.onActionProperty();
     }
 
@@ -125,19 +95,24 @@ public class FXMLReservaCadastroController implements Initializable {
 
     @FXML
     private void save() {
-        reserva.setAberta(Boolean.TRUE);
-        reserva.setCliente((Cliente) cbCliente.getValue());
-        reserva.setQuarto((Quarto) cbQuarto.getValue());
-        reserva.setValorDiaria(reserva.getQuarto().getValorDiaria());
-        reserva.setHospedes(listaSelecionados);
-        reserva.setDataEntrada(dateEntrada.getValue());
-        reserva.setDataReserva(dateReserva.getValue());
-        reserva.setDataSaida(dateSaida.getValue());
-        reserva.setMotivo(textMotivo.getText());
-        reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
+        if ((cbCliente.getValue() != null) && (cbQuarto.getValue() != null) && (dateReserva.getValue() != null)
+                && (dateEntrada.getValue() != null) && (dateSaida.getValue() != null)) {
+            reserva.setAberta(Boolean.TRUE);
+            reserva.setCliente((Cliente) cbCliente.getValue());
+            reserva.setQuarto((Quarto) cbQuarto.getValue());
+            reserva.setValorDiaria(reserva.getQuarto().getValorDiaria());
+            reserva.setHospedes(listaSelecionados);
+            reserva.setDataEntrada(dateEntrada.getValue());
+            reserva.setDataReserva(dateReserva.getValue());
+            reserva.setDataSaida(dateSaida.getValue());
+            reserva.setMotivo(textMotivo.getText());
+            reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
 
-        this.reservaDAO.save(reserva);
-        this.stage.close();
+            this.reservaDAO.save(reserva);
+            this.stage.close();
+        } else {
+            AlertHandler.validationFormException();
+        }
     }
 
     public void setReserva(Reserva reserva) {
@@ -157,12 +132,14 @@ public class FXMLReservaCadastroController implements Initializable {
 
     @FXML
     private void addToList() {
-        Hospede hospede = (Hospede) this.listHospedes.getSelectionModel().getSelectedItem();
-        if (!listaSelecionados.contains(hospede)) {
-            listaSelecionados.add(hospede);
+        if (listHospedes.getSelectionModel().getSelectedIndex() > -1) {
+            Hospede hospede = (Hospede) this.listHospedes.getSelectionModel().getSelectedItem();
+            if (!listaSelecionados.contains(hospede)) {
+                listaSelecionados.add(hospede);
+            }
+            ObservableList<Hospede> hospedesSelected = FXCollections.observableArrayList(listaSelecionados);
+            this.listSelHospedes.setItems(hospedesSelected);
         }
-        ObservableList<Hospede> hospedesSelected = FXCollections.observableArrayList(listaSelecionados);
-        this.listSelHospedes.setItems(hospedesSelected);
     }
 
     @FXML
@@ -181,7 +158,7 @@ public class FXMLReservaCadastroController implements Initializable {
     @FXML
     private void newClienteRecord(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));              
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLClienteCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -200,11 +177,11 @@ public class FXMLReservaCadastroController implements Initializable {
             AlertHandler.openFormException(e);
         }
     }
-    
+
     @FXML
     private void newHospedeRecord(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLHospedeCadastro.fxml"));              
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FXMLHospedeCadastro.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();

@@ -54,10 +54,10 @@ public class Reserva implements AbstractModel {
     @JoinTable(name = "Reserva_Hospedes")
     private List<Hospede> hospedes;
     
-    @OneToOne
-    @JoinColumn(name = "usuario_id", unique = true, nullable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
     private Usuario usuario;
-
+    
     @Convert(converter = BooleanConverter.class)
     @Column(columnDefinition = "char(1) default 'T'")
     private Boolean aberta;

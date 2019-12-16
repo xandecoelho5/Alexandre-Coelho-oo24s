@@ -15,27 +15,13 @@ public class AlertHandler {
     }
 
     public static void chooseRecordException() {
-        ALERT.setTitle("Erro");
-        ALERT.setHeaderText("Nenhum registro selecionado");
-        ALERT.setContentText("Por favor, selecione um registro na tabela!");
-        ALERT.showAndWait();
+        setAlert("Nenhum registro selecionado", "Por favor, selecione um registro na tabela!");
     }
     
     public static void cantDeleteException() {
-        ALERT.setTitle("Erro");
-        ALERT.setHeaderText("Seleção Indisponível");
-        ALERT.setContentText("Não é possível excluir o usuário que está logado!");
-        ALERT.showAndWait();
+        setAlert("Seleção Indisponível", "Não é possível excluir o usuário que está logado!");
     }
-
-    public static void loadFormException(String context, Exception ex) {
-        System.out.println(ex.getMessage());
-        ALERT.setTitle(" .: Hotelaria Joestar :. ");
-        ALERT.setHeaderText("Atenção, ocorreu um erro!");
-        ALERT.setContentText("Falha ao abrir a tela de " + context);
-        ALERT.showAndWait();
-    }
-
+    
     public static void loginException(Exception ex) {
         setAlert("Usuário e/ou senha inválidos!", "Por favor, tente novamente!", ex);
     }
@@ -43,9 +29,28 @@ public class AlertHandler {
     public static void showReportException(Exception ex) {
         setAlert("Falha ao exibir relatório!", "Falha ao exibir relatório!", ex);   
     }
-   
+
+    public static void validationFormException() {
+        setAlert("Erro ao adicionar novo registro", "Por favor, preencha todos os campos obrigatórios!");
+    }
+    
+    public static void loadFormException(String context, Exception ex) {
+        ex.printStackTrace();
+        ALERT.setTitle(" .: Hotelaria Joestar :. ");
+        ALERT.setHeaderText("Atenção, ocorreu um erro!");
+        ALERT.setContentText("Falha ao abrir a tela de " + context);
+        ALERT.showAndWait();
+    }
+
     private static void setAlert(String header, String context, Exception ex){
-        System.out.println(ex.getMessage());
+        ex.printStackTrace();
+        ALERT.setTitle("Erro");
+        ALERT.setHeaderText(header);
+        ALERT.setContentText(context);
+        ALERT.showAndWait();
+    }
+    
+    private static void setAlert(String header, String context) {
         ALERT.setTitle("Erro");
         ALERT.setHeaderText(header);
         ALERT.setContentText(context);

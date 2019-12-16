@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reserva" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="051802d4-a1a8-4597-b353-b06565370b3e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Trabalho Final"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="154"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="839"/>
+	<parameter name="RESERVA_ID" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[select r.dataEntrada, r.dataReserva, r.dataSaida, r.motivo, r.valorDiaria, 
        c.nome, q.numero, p.nome nomeProduto, rp.quantidade, rp.valor	,
@@ -17,7 +18,9 @@ on (r.quarto_id = q.id)
 join reservaprodutos rp 
 on (r.id = rp.reserva_id)
 join produtos p
-on (p.id = rp.produtos_id)]]>
+on (p.id = rp.produtos_id)
+where r.id =  $P{RESERVA_ID} 
+]]>
 	</queryString>
 	<field name="dataentrada" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="dataentrada"/>

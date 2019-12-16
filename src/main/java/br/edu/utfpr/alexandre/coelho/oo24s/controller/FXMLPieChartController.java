@@ -21,10 +21,7 @@ public class FXMLPieChartController implements Initializable {
     List<PieChart.Data> chartList;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(url);
-        System.out.println(rb);
-                
+    public void initialize(URL url, ResourceBundle rb) {                
         reservaDAO = new ReservaDAO();
         chartList = new ArrayList<>();     
         List<Object[]> lista = reservaDAO.getReservasMesData();

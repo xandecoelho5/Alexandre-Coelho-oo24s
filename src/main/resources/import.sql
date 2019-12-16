@@ -16,7 +16,11 @@ INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('
 INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('2B', 4, 4, 'SUPERIOR', 400.5);
 INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('3A', 2, 2, 'LUXO', 999.99);
 INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('3B', 4, 4, 'LUXO', 998.99);
-
+INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('5A', 2, 4, 'ECONOMICO', 250.00);
+INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('6B', 2, 2, 'SUPERIOR', 300.5);
+INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('7B', 4, 4, 'SUPERIOR', 500.5);
+INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('8A', 2, 2, 'LUXO', 699.99);
+INSERT INTO quarto (numero, qtdeCamas, qtdePessoas, tipo, valorDiaria) VALUES ('9B', 4, 4, 'LUXO', 892.99);
 
 INSERT INTO produtos (categoria, descricao, nome, valor) VALUES ('Produtos', 'Água Mineral sem gás.', 'Agua Mineral', 4.00);
 INSERT INTO produtos (categoria, descricao, nome, valor) VALUES ('Servicos', 'Limpar o quarto em momentos não designados.', 'Limpeza de Quarto', 40.00);
@@ -84,14 +88,14 @@ insert into hospede (cpf, email, endereco, nome, numeropassaporte, rg, telefonec
 
 insert into usuario (ativo, cpf, datanascimento, email, nome, senha) values ('T', '201.283.965-28', '2002-12-03', 'nn@a.com', 'Xandim', '1234');
 
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '08/11/2019', '12/04/2019', '12/26/2019', 'Product Management', 1, 1, 1, 50);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '05/30/2019', '12/12/2019', '12/22/2019', 'Product Management', 2, 2, 1, 75);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '10/23/2019', '12/06/2019', '12/21/2019', 'Marketing', 3, 3, 1, 150);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '06/23/2019', '12/06/2019', '12/19/2019', 'Marketing', 4, 4, 1, 200);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '07/26/2019', '12/11/2019', '12/26/2019', 'Product Management', 5, 5, 1, 250.5);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '10/16/2019', '12/13/2019', '12/30/2019', 'Legal', 6, 6, 1, 400.5);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '09/04/2019', '12/07/2019', '12/24/2019', 'Services', 7, 7, 1, 999.9);
-insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '09/21/2019', '12/05/2019', '12/30/2019', 'Legal', 8, 8, 1, 998.9);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '11/08/2019', '04/12/2019', '26/12/2019', 'Product Management', 1, 1, 1, 50);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '30/05/2019', '12/12/2019', '22/12/2019', 'Product Management', 2, 2, 1, 75);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '23/10/2019', '06/12/2019', '21/12/2019', 'Marketing', 3, 3, 1, 150);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '23/06/2019', '06/12/2019', '19/12/2019', 'Marketing', 4, 4, 1, 200);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '26/07/2019', '11/12/2019', '26/12/2019', 'Product Management', 5, 5, 1, 250.5);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '16/10/2019', '13/12/2019', '30/12/2019', 'Legal', 6, 6, 1, 400.5);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '09/04/2019', '07/12/2019', '24/12/2019', 'Services', 7, 7, 1, 999.9);
+insert into Reserva (aberta, datareserva, dataentrada, datasaida, motivo, cliente_id, quarto_id, usuario_id, valorDiaria) values ('T', '21/09/2019', '05/12/2019', '30/12/2019', 'Legal', 8, 8, 1, 998.9);
 
 insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (8, 7, 7, 20);
 insert into ReservaProdutos (quantidade, produtos_id, reserva_id, valor) values (4, 3, 2, 8);

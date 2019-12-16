@@ -140,15 +140,16 @@ public class FXMLPrincipalController implements Initializable {
         }
     }
 
-    /*@FXML
+    @FXML
     private void showReportProduto(ActionEvent event) {
         GenerateReport generateReport = new GenerateReport();
-        InputStream file = this.getClass().getResourceAsStream("/report/Reserva.jrxml");
+        InputStream file = this.getClass().getResourceAsStream("/report/Reserva.jasper");
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("TITULO", "Relatório de Produtos - JavaFx");
         Image imagem = new ImageIcon(this.getClass().getResource("/imagens/logoUTFPR.jpg")).getImage();
         parameters.put("LOGO", imagem);
+        parameters.put("RESERVA_ID", 1); //FXMLReservaManutController.getReserva().getId()
 
         DatabaseConnection conn = DatabaseConnection.getInstance();
         try {
@@ -157,12 +158,12 @@ public class FXMLPrincipalController implements Initializable {
         } catch (Exception e) {
             AlertHandler.showReportException(e); 
         }
-    }*/
+    }
 
-    /* @FXML
-    private void showPieChart(ActionEvent event) throws IOException {
-        setDataPane(openVBox("/fxml/FXMLPieChart.fxml"));
-    }*/
+     @FXML
+    private void showChartValor(ActionEvent event) throws IOException {
+        setDataPane(openVBox("/fxml/FXMLChartValor.fxml"));
+    }
     
     @FXML
     private void showPieChart(ActionEvent event) {

@@ -84,7 +84,7 @@ public abstract class GenericDao<T extends AbstractModel, I extends Serializable
     
     public List<T> getSemReserva() {
         Query query = em.createNativeQuery("select * from " + persistedClass.getSimpleName() +
-                                          " where id not in (select " + persistedClass.getSimpleName() + "_id from reserva)", persistedClass);
+                                          " where id not in (select " + persistedClass.getSimpleName() + "_id from reserva where aberta = 'T')", persistedClass);
         return query.getResultList();
     }
 

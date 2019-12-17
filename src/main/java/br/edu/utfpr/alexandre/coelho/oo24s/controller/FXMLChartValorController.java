@@ -1,10 +1,13 @@
 package br.edu.utfpr.alexandre.coelho.oo24s.controller;
 
 import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaDAO;
+import br.edu.utfpr.alexandre.coelho.oo24s.dao.ReservaProdutosDAO;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,20 +21,21 @@ public class FXMLChartValorController implements Initializable {
     private AnchorPane pane;
     
     private ReservaDAO reservaDAO;
+    private ReservaProdutosDAO reservaProdutosDAO;
     List<PieChart.Data> chartList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(url);
-        System.out.println(rb);
-                
         reservaDAO = new ReservaDAO();
+        reservaProdutosDAO = new ReservaProdutosDAO();
         chartList = new ArrayList<>();     
-        List<Object[]> lista = reservaDAO.getReservasMesData();
         
-        for (Object[] ob : lista) {
+        List<Object[]> listaDiaria = reservaDAO.getValorDiariaMes();
+        List<Object[]> listaValProdutos = reservaProdutosDAO.getValorProdutosMes();
+        
+        for(int i=0; i< listaDiaria.size(); i++) {
             String month = "";
-            switch(String.valueOf(ob[0])){
+            switch(String.valueOf(listaDiaria.get(i)[0])){
                 case "1.0": month = "Janeiro"; break;
                 case "2.0": month = "Fevereiro"; break;
                 case "3.0": month = "Março"; break;
@@ -45,10 +49,9 @@ public class FXMLChartValorController implements Initializable {
                 case "11.0": month = "Novembro"; break;
                 case "12.0": month = "Dezembro"; break;
             }
-            System.out.println(String.valueOf(ob[0]));
-            chartList.add(new PieChart.Data(month, Integer.parseInt(ob[1].toString())));
+            Double value = Double.parseDouble(listaDiaria.get(i)[1].toString()) + Double.parseDouble(listaValProdutos.get(i)[1].toString());
+            chartList.add(new PieChart.Data(month, value));
         }
-
         loadData();
     }
 
@@ -56,7 +59,7 @@ public class FXMLChartValorController implements Initializable {
         pane.getChildren().clear();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(chartList);
         PieChart reservasMes = new PieChart(pieChartData);
-        reservasMes.setTitle("Número de reservas por mês");
+        reservasMes.setTitle("Valor total recebido por mês");
         pane.getChildren().add(reservasMes);
     }  
 }

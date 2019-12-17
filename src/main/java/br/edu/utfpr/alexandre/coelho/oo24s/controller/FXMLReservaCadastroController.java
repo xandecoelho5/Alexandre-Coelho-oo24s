@@ -97,19 +97,23 @@ public class FXMLReservaCadastroController implements Initializable {
     private void save() {
         if ((cbCliente.getValue() != null) && (cbQuarto.getValue() != null) && (dateReserva.getValue() != null)
                 && (dateEntrada.getValue() != null) && (dateSaida.getValue() != null)) {
-            reserva.setAberta(Boolean.TRUE);
-            reserva.setCliente((Cliente) cbCliente.getValue());
-            reserva.setQuarto((Quarto) cbQuarto.getValue());
-            reserva.setValorDiaria(reserva.getQuarto().getValorDiaria());
-            reserva.setHospedes(listaSelecionados);
-            reserva.setDataEntrada(dateEntrada.getValue());
-            reserva.setDataReserva(dateReserva.getValue());
-            reserva.setDataSaida(dateSaida.getValue());
-            reserva.setMotivo(textMotivo.getText());
-            reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
+            if (dateSaida.getValue().compareTo(dateEntrada.getValue()) > 0) {
+                reserva.setAberta(Boolean.TRUE);
+                reserva.setCliente((Cliente) cbCliente.getValue());
+                reserva.setQuarto((Quarto) cbQuarto.getValue());
+                reserva.setValorDiaria(reserva.getQuarto().getValorDiaria());
+                reserva.setHospedes(listaSelecionados);
+                reserva.setDataEntrada(dateEntrada.getValue());
+                reserva.setDataReserva(dateReserva.getValue());
+                reserva.setDataSaida(dateSaida.getValue());
+                reserva.setMotivo(textMotivo.getText());
+                reserva.setUsuario(FXMLPrincipalController.getUsuarioAutenticado());
 
-            this.reservaDAO.save(reserva);
-            this.stage.close();
+                this.reservaDAO.save(reserva);
+                this.stage.close();
+            } else {
+                AlertHandler.dateException();
+            }
         } else {
             AlertHandler.validationFormException();
         }

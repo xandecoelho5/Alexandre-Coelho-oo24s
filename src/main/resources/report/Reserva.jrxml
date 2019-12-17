@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reserva" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="051802d4-a1a8-4597-b353-b06565370b3e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Trabalho Final"/>
@@ -19,10 +19,9 @@ join reservaprodutos rp
 on (r.id = rp.reserva_id)
 join produtos p
 on (p.id = rp.produtos_id)
-where r.id =  $P{RESERVA_ID} 
-]]>
+where r.id =  $P{RESERVA_ID}]]>
 	</queryString>
-	<field name="dataentrada" class="java.sql.Date">
+	<field name="dataentrada" class="java.util.Date">
 		<property name="com.jaspersoft.studio.field.label" value="dataentrada"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
 	</field>
@@ -89,25 +88,6 @@ where r.id =  $P{RESERVA_ID}
 	<pageHeader>
 		<band height="145" splitType="Stretch">
 			<textField>
-				<reportElement x="260" y="50" width="80" height="15" uuid="f78463ca-9f81-4db5-9b5c-eeb6cf447a88">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$F{dataentrada}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="50" width="75" height="15" uuid="05708b0f-31bf-4390-847a-aa3d27f2e5a4">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$F{datareserva}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="430" y="50" width="65" height="15" uuid="4b1f6999-9a37-4ee9-bd40-9fcde6dd8226">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$F{datasaida}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="40" y="70" width="340" height="15" uuid="6afe84dc-25f5-4bb5-aad4-e04e166b9765"/>
 				<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
 			</textField>
@@ -171,6 +151,18 @@ where r.id =  $P{RESERVA_ID}
 				</textElement>
 				<text><![CDATA[Produtos/Serviços utilizados durante a estadia:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="250" y="50" width="55" height="16" uuid="a7d4f25f-1df4-4c8e-ac52-167e882e7a2d"/>
+				<textFieldExpression><![CDATA[$F{dataentrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="50" width="45" height="15" uuid="4bfbc275-6295-4b0e-a66c-d7668211df36"/>
+				<textFieldExpression><![CDATA[$F{datareserva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="51" width="45" height="15" uuid="9d221373-7394-429c-a0cf-b2ae34c3e01a"/>
+				<textFieldExpression><![CDATA[$F{datasaida}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -243,7 +235,7 @@ where r.id =  $P{RESERVA_ID}
 				<text><![CDATA[Total Produtos/Serviços: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="85" y="7" width="75" height="17" uuid="02d838aa-6ffb-4687-af51-eafcc83e068a"/>
+				<reportElement x="73" y="7" width="75" height="17" uuid="02d838aa-6ffb-4687-af51-eafcc83e068a"/>
 				<textFieldExpression><![CDATA[$V{totalDiaria}]]></textFieldExpression>
 			</textField>
 			<textField>

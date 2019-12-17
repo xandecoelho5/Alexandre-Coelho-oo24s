@@ -65,7 +65,7 @@ public class FXMLReservaManutController implements Initializable {
     @FXML
     private TextField dateEnd;
     @FXML
-    private Button buttonAddToList;
+    private Button buttonCheckout;
     @FXML
     private TextField textActualUser;
     @FXML
@@ -153,19 +153,22 @@ public class FXMLReservaManutController implements Initializable {
             reserva = reservaDAO.getOne(reservaDAO.getByNome(c.getNome()));
             refreshData();
             setDataPane(openVBox("/fxml/FXMLProdutosListaReserva.fxml")); 
+            buttonCheckout.setVisible(true);
         }   
     }
     
     @FXML
     public void checkoutReserva(ActionEvent event) {
-        reserva.setAberta(Boolean.FALSE);
-        reservaDAO.update(reserva);
-        JOptionPane.showMessageDialog(null, "Reserva Finalizada!");
-        this.stage.close();
-        //if day > dataReservaFinal
-        //gera relatorios;
-        GenerateReport gp = new GenerateReport();
-        
+        if(!(cbCliente.getValue() == null)){
+            reserva.setAberta(Boolean.FALSE);
+            reservaDAO.update(reserva);
+            JOptionPane.showMessageDialog(null, "Reserva Finalizada!");
+            showReportProduto(event);
+            
+            this.stage.close();          
+        } else {
+            AlertHandler.chooseRecordException();
+        }  
     }
     
     private void setProgress() {
@@ -178,32 +181,23 @@ public class FXMLReservaManutController implements Initializable {
         progressReserva.progressProperty().set(1 - (Double.valueOf(diasFaltas) / diasTotal));
     }
     
-    /*@FXML
-    private void showReport(ActionEvent event) {
+    // infelizmente não consegui fazer abrir dnv :(
+    private void showReportProduto(ActionEvent event) {
         GenerateReport generateReport = new GenerateReport();
         InputStream file = this.getClass().getResourceAsStream("/report/Reserva.jasper");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("TITULO", "Relatório do Resumo da Reserva - JavaFx");
-        Image imagem = new ImageIcon(this.getClass().getResource("/imagens/logoUTFPR.jpg")).getImage();        
-        parameters.put("LOGO", imagem);
+//        parameters.put("TITULO", "Relatório de Produtos - JavaFx");
+//        Image imagem = new ImageIcon(this.getClass().getResource("/imagens/logoUTFPR.jpg")).getImage();
+//        parameters.put("LOGO", imagem);
+ //       parameters.put("RESERVA_ID", FXMLReservaManutController.getReserva().getId()); //
 
         DatabaseConnection conn = DatabaseConnection.getInstance();
         try {
-            JasperViewer viewer = generateReport.getReport(conn.getConnection(), parameters, file);       
+            JasperViewer viewer = generateReport.getReport(conn.getConnection(), parameters, file);
             viewer.setVisible(true);
         } catch (JRException e) {
-            AlertHandler.showReportException(e);
+            AlertHandler.showReportException(e); 
         }
     }
-
-    @FXML
-    private void showPieChart(ActionEvent event) throws IOException {
-        setDataPane(openVBox("/fxml/FXMLPieChart.fxml"));
-    }
-
-    @FXML
-    private void showBarChart(ActionEvent event) throws IOException {
-        setDataPane(openVBox("/fxml/FXMLBarChart.fxml"));
-    }*/
 }

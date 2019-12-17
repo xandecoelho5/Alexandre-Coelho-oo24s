@@ -34,6 +34,14 @@ public class AlertHandler {
         setAlert("Erro ao adicionar novo registro", "Por favor, preencha todos os campos obrigatórios!");
     }
     
+    public static void noChoiceSelected() {
+        setAlert("Nenhum registro selecionado", "Por favor, selecione um registro no caixa de Combo!");
+    }
+    
+    public static void dateException() {
+        setAlert("Datas inválidas", "Por favor, a data de saída deve ser posterior à data de entrada!");
+    }
+    
     public static void loadFormException(String context, Exception ex) {
         ex.printStackTrace();
         ALERT.setTitle(" .: Hotelaria Joestar :. ");

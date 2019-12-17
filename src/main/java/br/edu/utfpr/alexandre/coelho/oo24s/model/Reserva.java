@@ -28,11 +28,11 @@ public class Reserva implements AbstractModel {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "cliente_id", unique = true, referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "quarto_id", unique = true, referencedColumnName = "id")
+    @JoinColumn(name = "quarto_id", referencedColumnName = "id")
     private Quarto quarto;
 
     @Column(nullable = false)

@@ -42,10 +42,8 @@ public class FXMLPieChartController implements Initializable {
                 case "11.0": month = "Novembro"; break;
                 case "12.0": month = "Dezembro"; break;
             }
-            System.out.println(String.valueOf(ob[0]));
             chartList.add(new PieChart.Data(month, Integer.parseInt(ob[1].toString())));
         }
-
         loadData();
     }
 
